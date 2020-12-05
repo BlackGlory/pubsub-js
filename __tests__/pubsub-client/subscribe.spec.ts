@@ -1,16 +1,16 @@
 import { PubSubClient } from '@src/pubsub-client'
 import { Observable } from 'rxjs'
 import { TOKEN } from '@test/utils'
-import './create-observable.mock'
+import './subscribe.mock'
 
 jest.mock('eventsource', () => require('mocksse').EventSource)
 
 describe('PubSubClient', () => {
-  it('createObservable(id: string, options?: { token?: string }): Observable<string>', async done => {
+  it('subscribe(id: string, options?: { token?: string }): Observable<string>', async done => {
     const id = 'id'
     const client = createClient()
 
-    const observable = client.createObservable(id)
+    const observable = client.subscribe(id)
     observable.subscribe(data => {
       expect(data).toBe('message')
       done()

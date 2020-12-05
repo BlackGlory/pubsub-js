@@ -27,7 +27,7 @@ export class PubSubClient {
       .then(checkHTTPStatus)
   }
 
-  createObservable(id: string, options: { token?: string } = {}): Observable<string> {
+  subscribe(id: string, options: { token?: string } = {}): Observable<string> {
     return new Observable(observer => {
       const token = options.token ?? this.options.token
       const url = new URL(`/pubsub/${id}`, this.options.server)
