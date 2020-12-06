@@ -1,7 +1,8 @@
 import { fetch } from 'cross-fetch'
-import { password, checkHTTPStatus, toJSON } from './utils'
+import { password } from './utils'
 import { get, put, del } from 'extra-request'
 import { url, pathname } from 'extra-request/lib/es2018/transformers'
+import { ok, toJSON } from 'extra-response'
 
 interface TokenInfo {
   token: string
@@ -25,7 +26,7 @@ export class TokenClient {
     )
 
     return await fetch(req)
-      .then(checkHTTPStatus)
+      .then(ok)
       .then(toJSON) as string[]
   }
 
@@ -37,7 +38,7 @@ export class TokenClient {
     )
 
     return await fetch(req)
-      .then(checkHTTPStatus)
+      .then(ok)
       .then(toJSON) as TokenInfo[]
   }
 
@@ -48,8 +49,7 @@ export class TokenClient {
     , password(this.options.adminPassword)
     )
 
-    await fetch(req)
-      .then(checkHTTPStatus)
+    await fetch(req).then(ok)
   }
 
   async removeWriteToken(id: string, token: string): Promise<void> {
@@ -59,8 +59,7 @@ export class TokenClient {
     , password(this.options.adminPassword)
     )
 
-    await fetch(req)
-      .then(checkHTTPStatus)
+    await fetch(req).then(ok)
   }
 
   async addReadToken(id: string, token: string): Promise<void> {
@@ -70,8 +69,7 @@ export class TokenClient {
     , password(this.options.adminPassword)
     )
 
-    await fetch(req)
-      .then(checkHTTPStatus)
+    await fetch(req).then(ok)
   }
 
   async removeReadToken(id: string, token: string): Promise<void> {
@@ -81,7 +79,6 @@ export class TokenClient {
     , password(this.options.adminPassword)
     )
 
-    await fetch(req)
-      .then(checkHTTPStatus)
+    await fetch(req).then(ok)
   }
 }

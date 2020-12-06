@@ -1,7 +1,8 @@
 import { fetch } from 'cross-fetch'
-import { password, checkHTTPStatus, toJSON } from './utils'
+import { password } from './utils'
 import { get, put, del } from 'extra-request'
 import { url, pathname, json } from 'extra-request/lib/es2018/transformers'
+import { ok, toJSON } from 'extra-response'
 
 interface TokenPolicy {
   writeTokenRequired: boolean | null
@@ -24,7 +25,7 @@ export class TokenPolicyClient {
     )
 
     return await fetch(req)
-      .then(checkHTTPStatus)
+      .then(ok)
       .then(toJSON) as string[]
   }
 
@@ -36,7 +37,7 @@ export class TokenPolicyClient {
     )
 
     return await fetch(req)
-      .then(checkHTTPStatus)
+      .then(ok)
       .then(toJSON) as TokenPolicy
   }
 
@@ -48,8 +49,7 @@ export class TokenPolicyClient {
     , json(val)
     )
 
-    await fetch(req)
-      .then(checkHTTPStatus)
+    await fetch(req).then(ok)
   }
 
   async removeWriteTokenRequired(id: string): Promise<void> {
@@ -59,8 +59,7 @@ export class TokenPolicyClient {
     , password(this.options.adminPassword)
     )
 
-    await fetch(req)
-      .then(checkHTTPStatus)
+    await fetch(req).then(ok)
   }
 
   async setReadTokenRequired(id: string, val: boolean): Promise<void> {
@@ -71,8 +70,7 @@ export class TokenPolicyClient {
     , json(val)
     )
 
-    await fetch(req)
-      .then(checkHTTPStatus)
+    await fetch(req).then(ok)
   }
 
   async removeReadTokenRequired(id: string): Promise<void> {
@@ -82,7 +80,6 @@ export class TokenPolicyClient {
     , password(this.options.adminPassword)
     )
 
-    await fetch(req)
-      .then(checkHTTPStatus)
+    await fetch(req).then(ok)
   }
 }

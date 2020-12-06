@@ -1,9 +1,9 @@
 import { fetch } from 'cross-fetch'
-import { checkHTTPStatus } from './utils'
 import { post } from 'extra-request'
 import { url, pathname, text, searchParams } from 'extra-request/lib/es2018/transformers'
 import { Observable } from 'rxjs'
 import EventSource = require('eventsource')
+import { ok } from 'extra-response'
 
 export interface PubSubClientOptions {
   server: string
@@ -23,8 +23,7 @@ export class PubSubClient {
     , text(val)
     )
 
-    await fetch(req)
-      .then(checkHTTPStatus)
+    await fetch(req).then(ok)
   }
 
   subscribe(id: string, options: { token?: string } = {}): Observable<string> {
