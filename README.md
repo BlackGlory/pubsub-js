@@ -25,10 +25,22 @@ new PubSubClient({
 PubSubClient#publish(id: string, val: string, options?: { token?: string }): Promise<void>
 ```
 
-### subscribe
+#### publishJSON
+
+```ts
+PubSubClient#publishJSON(id: string, val: Json, options?: { token?: string }): Promise<void>
+```
+
+#### subscribe
 
 ```ts
 PubSubClient#subscribe(id: string, options?: { token?: string }): Observable<string>
+```
+
+#### subscribeJSON
+
+```ts
+PubSubClient#subscribeJSON(id: string, options?: { token?: string }): Observable<Json>
 ```
 
 ### PubSubManager

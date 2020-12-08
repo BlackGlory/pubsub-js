@@ -2,8 +2,10 @@ import { fetch } from 'cross-fetch'
 import { post } from 'extra-request'
 import { url, pathname, text, searchParams } from 'extra-request/lib/es2018/transformers'
 import { Observable } from 'rxjs'
+import { map } from 'rxjs/operators'
 import EventSource = require('eventsource')
 import { ok } from 'extra-response'
+import { Json } from '@blackglory/types'
 
 export interface PubSubClientOptions {
   server: string
@@ -26,6 +28,10 @@ export class PubSubClient {
     await fetch(req).then(ok)
   }
 
+  async publishJSON(id: string, val: Json, options?: { token?: string }): Promise<void> {
+    return await this.publish(id, JSON.stringify(val), options)
+  }
+
   subscribe(id: string, options: { token?: string } = {}): Observable<string> {
     return new Observable(observer => {
       const token = options.token ?? this.options.token
@@ -38,5 +44,11 @@ export class PubSubClient {
 
       return () => es.close()
     })
+  }
+
+  subscribeJSON(id: string, options?: { token?: string }): Observable<Json> {
+    return this.subscribe(id, options).pipe(
+      map(x => JSON.parse(x))
+    )
   }
 }

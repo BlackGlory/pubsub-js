@@ -12,7 +12,20 @@ describe('PubSubClient', () => {
 
     const observable = client.subscribe(id)
     observable.subscribe(data => {
-      expect(data).toBe('message')
+      expect(data).toBe('null')
+      done()
+    })
+
+    expect(observable).toBeInstanceOf(Observable)
+  })
+
+  it('subscribeJSON(id: string, options?: { token?: string }): Observable<Json>', async done => {
+    const id = 'id'
+    const client = createClient()
+
+    const observable = client.subscribeJSON(id)
+    observable.subscribe(data => {
+      expect(data).toBe(null)
       done()
     })
 
