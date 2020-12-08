@@ -50,7 +50,7 @@ describe('TokenClient', () => {
     const id = 'id'
     const token = 'token'
 
-    const result = client.removeWriteToken(id, token)
+    const result = client.removeReadToken(id, token)
     const proResult = await result
 
     expect(result).toBePromise()
@@ -62,7 +62,7 @@ describe('TokenClient', () => {
     const id = 'id'
     const token = 'token'
 
-    const result = client.addWriteToken(id, token)
+    const result = client.addReadToken(id, token)
     const proResult = await result
 
     expect(result).toBePromise()
