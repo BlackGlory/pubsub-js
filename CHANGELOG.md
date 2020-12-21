@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.4](https://github.com/BlackGlory/pubsub-js/compare/v0.2.3...v0.2.4) (2020-12-21)
+
+
+### Features
+
+* add RequestOptions ([48a17b6](https://github.com/BlackGlory/pubsub-js/commit/48a17b60db6511471f67e3c403874afabb3ff3de))
+
 ### [0.2.3](https://github.com/BlackGlory/pubsub-js/compare/v0.2.2...v0.2.3) (2020-12-08)
 
 
