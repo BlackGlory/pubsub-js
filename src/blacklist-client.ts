@@ -1,22 +1,20 @@
 import { fetch } from 'cross-fetch'
 import { password } from './utils'
 import { get, put, del } from 'extra-request'
-import { url, pathname } from 'extra-request/lib/es2018/transformers'
+import { url, pathname, signal } from 'extra-request/lib/es2018/transformers'
 import { ok, toJSON } from 'extra-response'
-
-export interface BlacklistClientOptions {
-  server: string
-  adminPassword: string
-}
+import { PubSubManagerOptions } from './pubsub-manager'
+import { PubSubManagerRequestOptions } from './types'
 
 export class BlacklistClient {
-  constructor(private options: BlacklistClientOptions) {}
+  constructor(private options: PubSubManagerOptions) {}
 
-  async getIds(): Promise<string[]> {
+  async getIds(options: PubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       url(this.options.server)
     , pathname('/api/blacklist')
     , password(this.options.adminPassword)
+    , options.signal && signal(options.signal)
     )
 
     return await fetch(req)
@@ -24,21 +22,23 @@ export class BlacklistClient {
       .then(toJSON) as string[]
   }
 
-  async add(id: string): Promise<void> {
+  async add(id: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
     const req = put(
       url(this.options.server)
     , pathname(`/api/blacklist/${id}`)
     , password(this.options.adminPassword)
+    , options.signal && signal(options.signal)
     )
 
     await fetch(req).then(ok)
   }
 
-  async remove(id: string): Promise<void> {
+  async remove(id: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
       url(this.options.server)
     , pathname(`/api/blacklist/${id}`)
     , password(this.options.adminPassword)
+    , options.signal && signal(options.signal)
     )
 
     await fetch(req).then(ok)
