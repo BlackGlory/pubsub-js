@@ -5,7 +5,6 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import EventSource = require('eventsource')
 import { ok } from 'extra-response'
-import { Json } from '@blackglory/types'
 
 export interface PubSubClientOptions {
   server: string
@@ -37,7 +36,7 @@ export class PubSubClient {
     await fetch(req).then(ok)
   }
 
-  async publishJSON(id: string, val: Json, options?: PubSubClientRequestOptions): Promise<void> {
+  async publishJSON<T>(id: string, val: T, options?: PubSubClientRequestOptions): Promise<void> {
     return await this.publish(id, JSON.stringify(val), options)
   }
 
@@ -55,7 +54,7 @@ export class PubSubClient {
     })
   }
 
-  subscribeJSON(id: string, options?: PubSubClientObserveOptions): Observable<Json> {
+  subscribeJSON<T>(id: string, options?: PubSubClientObserveOptions): Observable<T> {
     return this.subscribe(id, options).pipe(
       map(x => JSON.parse(x))
     )
