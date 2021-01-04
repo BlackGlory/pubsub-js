@@ -1,7 +1,10 @@
 import typescript from '@rollup/plugin-typescript'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
+import json from '@rollup/plugin-json'
 import { terser } from 'rollup-plugin-terser'
+import analyze from 'rollup-plugin-analyzer'
+import nodePolyfills from 'rollup-plugin-node-polyfills'
 
 const UMD_NAME = 'PubSub'
 
@@ -11,17 +14,22 @@ function createOptions({ directory, target }) {
       input: 'src/index.ts'
     , output: createOutput('index')
     , plugins: [
-        typescript({ target })
-      , resolve()
+        nodePolyfills()
+      , typescript({ target })
+      , json()
+      , resolve({ browser: true })
       , commonjs()
+      , analyze({ summaryOnly: true })
       ]
     }
   , {
       input: 'src/index.ts'
     , output: createMinification('index')
     , plugins: [
-        typescript({ target })
-      , resolve()
+        nodePolyfills()
+      , typescript({ target })
+      , json()
+      , resolve({ browser: true })
       , commonjs()
       , terser()
       ]

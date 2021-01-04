@@ -3,8 +3,8 @@ import { post } from 'extra-request'
 import { url, pathname, text, searchParams } from 'extra-request/lib/es2018/transformers'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
-import EventSource = require('eventsource')
 import { ok } from 'extra-response'
+import 'eventsource/lib/eventsource-polyfill'
 
 export interface PubSubClientOptions {
   server: string
