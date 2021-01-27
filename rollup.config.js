@@ -4,7 +4,6 @@ import resolve from '@rollup/plugin-node-resolve'
 import json from '@rollup/plugin-json'
 import { terser } from 'rollup-plugin-terser'
 import analyze from 'rollup-plugin-analyzer'
-import nodePolyfills from 'rollup-plugin-node-polyfills'
 import replace from '@rollup/plugin-replace'
 
 const UMD_NAME = 'PubSub'
@@ -26,7 +25,6 @@ function createOptions({ directory, target }) {
       'Object.defineProperty(exports, "__esModule", { value: true });': ''
     , delimiters: ['\n', '\n']
     })
-  , nodePolyfills()
   , resolve({ browser: true })
   , commonjs()
   , json()
