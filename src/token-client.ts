@@ -3,7 +3,7 @@ import { password } from './utils'
 import { get, put, del } from 'extra-request'
 import { url, pathname, signal } from 'extra-request/lib/es2018/transformers'
 import { ok, toJSON } from 'extra-response'
-import type { PubSubManagerOptions } from './pubsub-manager'
+import type { IPubSubManagerOptions } from './pubsub-manager'
 import { PubSubManagerRequestOptions } from './types'
 
 interface TokenInfo {
@@ -13,7 +13,7 @@ interface TokenInfo {
 }
 
 export class TokenClient {
-  constructor(private options: PubSubManagerOptions) {}
+  constructor(private options: IPubSubManagerOptions) {}
 
   async getIds(options: PubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(

@@ -4,13 +4,13 @@ import { WhitelistClient } from './whitelist-client'
 import { TokenPolicyClient } from './token-policy-client'
 import { TokenClient } from './token-client'
 
-export interface PubSubManagerOptions {
+export interface IPubSubManagerOptions {
   server: string
   adminPassword: string
 }
 
 export class PubSubManager {
-  constructor(private options: PubSubManagerOptions) {}
+  constructor(private options: IPubSubManagerOptions) {}
 
   JsonSchema = new JsonSchemaClient(this.options)
   Blacklist = new BlacklistClient(this.options)

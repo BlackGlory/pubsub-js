@@ -5,24 +5,24 @@ import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ok } from 'extra-response'
 
-export interface PubSubClientOptions {
+export interface IPubSubClientOptions {
   server: string
   token?: string
 }
 
-export interface PubSubClientRequestOptions {
+export interface IPubSubClientRequestOptions {
   signal?: AbortSignal
   token?: string
 }
 
-export interface PubSubClientObserveOptions {
+export interface IPubSubClientObserveOptions {
   token?: string
 }
 
 export class PubSubClient {
-  constructor(private options: PubSubClientOptions) {}
+  constructor(private options: IPubSubClientOptions) {}
 
-  async publish(id: string, val: string, options: PubSubClientRequestOptions = {}): Promise<void> {
+  async publish(id: string, val: string, options: IPubSubClientRequestOptions = {}): Promise<void> {
     const token = options.token ?? this.options.token
 
     const req = post(
@@ -35,11 +35,11 @@ export class PubSubClient {
     await fetch(req).then(ok)
   }
 
-  async publishJSON<T>(id: string, val: T, options?: PubSubClientRequestOptions): Promise<void> {
+  async publishJSON<T>(id: string, val: T, options?: IPubSubClientRequestOptions): Promise<void> {
     return await this.publish(id, JSON.stringify(val), options)
   }
 
-  subscribe(id: string, options: PubSubClientObserveOptions = {}): Observable<string> {
+  subscribe(id: string, options: IPubSubClientObserveOptions = {}): Observable<string> {
     return new Observable(observer => {
       const token = options.token ?? this.options.token
       const url = new URL(`/pubsub/${id}`, this.options.server)
@@ -53,7 +53,7 @@ export class PubSubClient {
     })
   }
 
-  subscribeJSON<T>(id: string, options?: PubSubClientObserveOptions): Observable<T> {
+  subscribeJSON<T>(id: string, options?: IPubSubClientObserveOptions): Observable<T> {
     return this.subscribe(id, options).pipe(
       map(x => JSON.parse(x))
     )

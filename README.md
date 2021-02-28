@@ -13,21 +13,21 @@ yarn add @blackglory/pubsub-js
 ### PubSubClient
 
 ```ts
-new PubSubClient({
+new PubSubClient{
   server: string
 , token?: string
 })
 ```
 
 ```ts
-interface PubSubClientRequestOptions {
+interface IPubSubClientRequestOptions {
   signal?: AbortSignal
   token?: string
 }
 ```
 
 ```ts
-interface PubSubClientObserveOptions {
+interface IPubSubClientObserveOptions {
   token?: string
 }
 ```
@@ -35,25 +35,25 @@ interface PubSubClientObserveOptions {
 #### publish
 
 ```ts
-PubSubClient#publish(id: string, val: string, options?: PubSubClientRequestOptions): Promise<void>
+PubSubClient#publish(id: string, val: string, options?: IPubSubClientRequestOptions): Promise<void>
 ```
 
 #### publishJSON
 
 ```ts
-PubSubClient#publishJSON(id: string, val: Json, options?: PubSubClientRequestOptions): Promise<void>
+PubSubClient#publishJSON(id: string, val: Json, options?: IPubSubClientRequestOptions): Promise<void>
 ```
 
 #### subscribe
 
 ```ts
-PubSubClient#subscribe(id: string, options?: PubSubClientObserveOptions): Observable<string>
+PubSubClient#subscribe(id: string, options?: IPubSubClientObserveOptions): Observable<string>
 ```
 
 #### subscribeJSON
 
 ```ts
-PubSubClient#subscribeJSON(id: string, options?: PubSubClientObserveOptions): Observable<Json>
+PubSubClient#subscribeJSON(id: string, options?: IPubSubClientObserveOptions): Observable<Json>
 ```
 
 ### PubSubManager
@@ -66,35 +66,35 @@ new PubSubManager({
 ```
 
 ```ts
-interface PubSubManagerRequestOptions {
+interface IPubSubManagerRequestOptions {
   signal?: AbortSignal
 }
-```
+``
 
 #### JsonSchema
 
 ##### getIds
 
 ```ts
-PubSubManager#JsonSchema.getIds(options?: PubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#JsonSchema.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
 ```
 
 ##### get
 
 ```ts
-PubSubManager#JsonSchema.get(id: string, options?: PubSubManagerRequestOptions): Promise<Json>
+PubSubManager#JsonSchema.get(id: string, options?: IPubSubManagerRequestOptions): Promise<Json>
 ```
 
 ##### set
 
 ```ts
-PubSubManager#JsonSchema.set(id: string, schema: Json, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#JsonSchema.set(id: string, schema: Json, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### remove
 
 ```ts
-PubSubManager#JsonSchema.remove(id: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#JsonSchema.remove(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 #### RevisionPolicy
@@ -102,13 +102,13 @@ PubSubManager#JsonSchema.remove(id: string, options?: PubSubManagerRequestOption
 ##### getIds
 
 ```ts
-PubSubManager#RevisionPolicy.getIds(options?: PubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#RevisionPolicy.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
 ```
 
 ##### get
 
 ```ts
-PubSubManager#RevisionPolicy.get(id: string, options?: PubSubManagerRequestOptions): Promise<{
+PubSubManager#RevisionPolicy.get(id: string, options?: IPubSubManagerRequestOptions): Promise<{
   updateRevisionRequired: boolean | null
   deleteRevisionRequired: boolean | null
 }>
@@ -117,25 +117,25 @@ PubSubManager#RevisionPolicy.get(id: string, options?: PubSubManagerRequestOptio
 ##### setUpdateRevisionRequired
 
 ```ts
-PubSubManager#RevisionPolicy.setUpdateRevisionRequired(id: string, val: boolean, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#RevisionPolicy.setUpdateRevisionRequired(id: string, val: boolean, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### removeUpdateRevisionRequired
 
 ```ts
-PubSubManager#RevisionPolicy.removeUpdateRevisionRequired(id: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#RevisionPolicy.removeUpdateRevisionRequired(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### setDeleteRevisionRequired
 
 ```ts
-PubSubManager#RevisionPolicy.setDeleteRevisionRequired(id: string, val: boolean, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#RevisionPolicy.setDeleteRevisionRequired(id: string, val: boolean, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### removeDeleteRevisionRequired
 
 ```ts
-PubSubManager#RevisionPolicy.removeDeleteRevisionRequired(id: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#RevisionPolicy.removeDeleteRevisionRequired(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 #### Blacklist
@@ -143,19 +143,19 @@ PubSubManager#RevisionPolicy.removeDeleteRevisionRequired(id: string, options?: 
 ##### getIds
 
 ```ts
-PubSubManager#Blacklist.getIds(options?: PubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#Blacklist.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
 ```
 
 ##### add
 
 ```ts
-PubSubManager#Blacklist.add(id: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#Blacklist.add(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### remove
 
 ```ts
-PubSubManager#Blacklist.remove(id: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#Blacklist.remove(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 #### Whitelist
@@ -163,19 +163,19 @@ PubSubManager#Blacklist.remove(id: string, options?: PubSubManagerRequestOptions
 ##### getIds
 
 ```ts
-PubSubManager#Whitelist.getIds(options?: PubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#Whitelist.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
 ```
 
 ##### add
 
 ```ts
-PubSubManager#Whitelist.add(id: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#Whitelist.add(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### remove
 
 ```ts
-PubSubManager#Whitelist.remove(id: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#Whitelist.remove(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 #### TokenPolicy
@@ -183,13 +183,13 @@ PubSubManager#Whitelist.remove(id: string, options?: PubSubManagerRequestOptions
 ##### getIds
 
 ```ts
-PubSubManager#TokenPolicy.getIds(options?: PubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#TokenPolicy.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
 ```
 
 ##### get
 
 ```ts
-PubSubManager#TokenPolicy.get(id: string, options?: PubSubManagerRequestOptions): Promise<{
+PubSubManager#TokenPolicy.get(id: string, options?: IPubSubManagerRequestOptions): Promise<{
   writeTokenRequired: boolean | null
   readTokenRequired: boolean | null
 }>
@@ -198,26 +198,26 @@ PubSubManager#TokenPolicy.get(id: string, options?: PubSubManagerRequestOptions)
 ##### setWriteTokenRequired
 
 ```ts
-PubSubManager#TokenPolicy.setWriteTokenRequired(id: string, val: boolean, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#TokenPolicy.setWriteTokenRequired(id: string, val: boolean, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### removeWriteTokenRequired
 
 ```ts
-PubSubManager#TokenPolicy.removeWriteTokenRequired(id: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#TokenPolicy.removeWriteTokenRequired(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### setReadTokenRequired
 
 
 ```ts
-PubSubManager#TokenPolicy.setReadTokenRequired(id: string, val: boolean, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#TokenPolicy.setReadTokenRequired(id: string, val: boolean, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### removeReadTokenRequired
 
 ```ts
-PubSubManager#TokenPolicy.removeReadTokenRequired(id: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#TokenPolicy.removeReadTokenRequired(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 #### Token
@@ -225,13 +225,13 @@ PubSubManager#TokenPolicy.removeReadTokenRequired(id: string, options?: PubSubMa
 ##### getIds
 
 ```ts
-PubSubManager#Token.getIds(options?: PubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#Token.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
 ```
 
 ##### getTokens
 
 ```ts
-PubSubManager#Token.getTokens(id: string, options?: PubSubManagerRequestOptions): Promise<Array<{
+PubSubManager#Token.getTokens(id: string, options?: IPubSubManagerRequestOptions): Promise<Array<{
   token: string
   write: boolean
   read: boolean
@@ -241,23 +241,23 @@ PubSubManager#Token.getTokens(id: string, options?: PubSubManagerRequestOptions)
 ##### addWriteToken
 
 ```ts
-PubSubManager#Token.addWriteToken(id: string, token: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#Token.addWriteToken(id: string, token: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### removeWriteToken
 
 ```ts
-PubSubManager#Token.removeWriteToken(id: string, token: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#Token.removeWriteToken(id: string, token: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### addReadToken
 
 ```ts
-PubSubManager#Token.addReadToken(id: string, token: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#Token.addReadToken(id: string, token: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
 
 ##### removeReadToken
 
 ```ts
-PubSubManager#Token.removeReadToken(id: string, token: string, options?: PubSubManagerRequestOptions): Promise<void>
+PubSubManager#Token.removeReadToken(id: string, token: string, options?: IPubSubManagerRequestOptions): Promise<void>
 ```
