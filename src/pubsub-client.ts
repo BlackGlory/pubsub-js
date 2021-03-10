@@ -1,6 +1,6 @@
 import { fetch, EventSource } from 'extra-fetch'
 import { post } from 'extra-request'
-import { url, pathname, text, searchParams } from 'extra-request/lib/es2018/transformers'
+import { url, pathname, text, searchParams, keepalive } from 'extra-request/lib/es2018/transformers'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ok } from 'extra-response'
@@ -8,11 +8,13 @@ import { ok } from 'extra-response'
 export interface IPubSubClientOptions {
   server: string
   token?: string
+  keepalive?: boolean
 }
 
 export interface IPubSubClientRequestOptions {
   signal?: AbortSignal
   token?: string
+  keepalive?: boolean
 }
 
 export interface IPubSubClientObserveOptions {
@@ -30,6 +32,7 @@ export class PubSubClient {
     , pathname(`pubsub/${id}`)
     , token && searchParams({ token })
     , text(val)
+    , keepalive(options.keepalive ?? this.options.keepalive)
     )
 
     await fetch(req).then(ok)

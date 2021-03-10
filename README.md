@@ -16,6 +16,7 @@ yarn add @blackglory/pubsub-js
 new PubSubClient{
   server: string
 , token?: string
+, keepalive?: boolean
 })
 ```
 
@@ -23,6 +24,7 @@ new PubSubClient{
 interface IPubSubClientRequestOptions {
   signal?: AbortSignal
   token?: string
+  keepalive?: boolean
 }
 ```
 
