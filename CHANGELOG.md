@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.23](https://github.com/BlackGlory/pubsub-js/compare/v0.2.22...v0.2.23) (2021-03-13)
+
+
+### Features
+
+* improve assertions ([b8cdc12](https://github.com/BlackGlory/pubsub-js/commit/b8cdc12d7a209e1c87695c3274b387b27d112be6))
+
 ### [0.2.22](https://github.com/BlackGlory/pubsub-js/compare/v0.2.21...v0.2.22) (2021-03-13)
 
 
