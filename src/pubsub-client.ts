@@ -66,9 +66,11 @@ export class PubSubClient {
       let heartbeatTimer: ReturnType<typeof setInterval> | null = null
       if (options.heartbeat ?? this.options.heartbeat) {
         const timeout = options.heartbeat.timeout ?? this.options.heartbeat.timeout
+        assert(Number.isInteger(timeout), 'timeout must be an integer')
+        assert(timeout > 0, 'timeout must greater than zero')
         const probes = options.heartbeat.probes ?? this.options.heartbeat.probes
         assert(Number.isInteger(probes), 'probes must be an integer')
-        assert(probes > 0, 'probes must greater than zero')
+        assert(probes >= 0, 'probes must greater than or equal to zero')
 
         let lastHeartbeat = Date.now()
         heartbeatTimer = setInterval(() => {
