@@ -4,7 +4,7 @@ import { url, pathname, text, searchParams, keepalive } from 'extra-request/lib/
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ok } from 'extra-response'
-import { assert } from '@blackglory/errors'
+import { assert, CustomError } from '@blackglory/errors'
 
 export interface IPubSubClientOptions {
   server: string
@@ -69,6 +69,7 @@ export class PubSubClient {
         const probes = options.heartbeat.probes ?? this.options.heartbeat.probes
         assert(Number.isInteger(probes), 'probes must be an integer')
         assert(probes > 0, 'probes must greater than zero')
+
         let lastHeartbeat = Date.now()
         heartbeatTimer = setInterval(() => {
           if (Date.now() - lastHeartbeat > timeout * (probes + 1)) {
@@ -96,4 +97,4 @@ export class PubSubClient {
   }
 }
 
-export class HeartbeatTimeoutError {}
+export class HeartbeatTimeoutError extends CustomError {}
