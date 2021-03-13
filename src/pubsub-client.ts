@@ -4,11 +4,13 @@ import { url, pathname, text, searchParams, keepalive } from 'extra-request/lib/
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ok } from 'extra-response'
+import { assert } from '@blackglory/errors'
 
 export interface IPubSubClientOptions {
   server: string
   token?: string
   keepalive?: boolean
+  heartbeat?: IHeartbeatOptions
 }
 
 export interface IPubSubClientRequestOptions {
@@ -19,6 +21,12 @@ export interface IPubSubClientRequestOptions {
 
 export interface IPubSubClientObserveOptions {
   token?: string
+  heartbeat?: IHeartbeatOptions
+}
+
+export interface IHeartbeatOptions {
+  timeout: number
+  probes: number // probe count
 }
 
 export class PubSubClient {
@@ -50,9 +58,34 @@ export class PubSubClient {
 
       const es = new EventSource(url.href)
       es.addEventListener('message', (evt: MessageEvent) => observer.next(evt.data))
-      es.addEventListener('error', (evt: MessageEvent) => observer.error(evt))
+      es.addEventListener('error', evt => {
+        close()
+        observer.error(evt)
+      })
 
-      return () => es.close()
+      let heartbeatTimer: ReturnType<typeof setInterval> | null = null
+      if (options.heartbeat ?? this.options.heartbeat) {
+        const timeout = options.heartbeat.timeout ?? this.options.heartbeat.timeout
+        const probes = options.heartbeat.probes ?? this.options.heartbeat.probes
+        assert(Number.isInteger(probes), 'probes must be an integer')
+        assert(probes > 0, 'probes must greater than zero')
+        let lastHeartbeat = Date.now()
+        heartbeatTimer = setInterval(() => {
+          if (Date.now() - lastHeartbeat > timeout * (probes + 1)) {
+            close()
+            observer.error(new HeartbeatTimeoutError())
+          }
+        }, options.heartbeat.timeout)
+
+        es.addEventListener('heartbeat', () => lastHeartbeat = Date.now())
+      }
+
+      return close
+
+      function close() {
+        if (heartbeatTimer) clearInterval(heartbeatTimer)
+        es.close()
+      }
     })
   }
 
@@ -62,3 +95,5 @@ export class PubSubClient {
     )
   }
 }
+
+export class HeartbeatTimeoutError {}

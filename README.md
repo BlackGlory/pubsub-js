@@ -17,6 +17,7 @@ new PubSubClient{
   server: string
 , token?: string
 , keepalive?: boolean
+, heartbeat?: IHeartbeatOptions
 })
 ```
 
@@ -31,6 +32,14 @@ interface IPubSubClientRequestOptions {
 ```ts
 interface IPubSubClientObserveOptions {
   token?: string
+  heartbeat?: IHeartbeatOptions
+}
+```
+
+```ts
+interface IHeartbeatOptions {
+  timeout: number
+  probes: number
 }
 ```
 
