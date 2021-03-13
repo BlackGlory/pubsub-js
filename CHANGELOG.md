@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.21](https://github.com/BlackGlory/pubsub-js/compare/v0.2.20...v0.2.21) (2021-03-13)
+
+
+### Features
+
+* support sse heartbeat ([99f2a28](https://github.com/BlackGlory/pubsub-js/commit/99f2a28d6be71c18e7f1d6fe78e25d8059b9b42e))
+
 ### [0.2.20](https://github.com/BlackGlory/pubsub-js/compare/v0.2.19...v0.2.20) (2021-03-10)
 
 
