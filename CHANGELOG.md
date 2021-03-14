@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/BlackGlory/pubsub-js/compare/v0.2.23...v0.3.0) (2021-03-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename /api to /admin
+
+### Features
+
+* rename /api to /admin ([51394c4](https://github.com/BlackGlory/pubsub-js/commit/51394c4bbe2123c40f8c2db10c5346ccfa6ecf77))
+
 ### [0.2.23](https://github.com/BlackGlory/pubsub-js/compare/v0.2.22...v0.2.23) (2021-03-13)
 
 
