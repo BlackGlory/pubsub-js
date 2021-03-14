@@ -12,7 +12,7 @@ export class BlacklistClient {
   async getIds(options: PubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       url(this.options.server)
-    , pathname('/api/blacklist')
+    , pathname('/admin/blacklist')
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -25,7 +25,7 @@ export class BlacklistClient {
   async add(id: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
     const req = put(
       url(this.options.server)
-    , pathname(`/api/blacklist/${id}`)
+    , pathname(`/admin/blacklist/${id}`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -36,7 +36,7 @@ export class BlacklistClient {
   async remove(id: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
       url(this.options.server)
-    , pathname(`/api/blacklist/${id}`)
+    , pathname(`/admin/blacklist/${id}`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )

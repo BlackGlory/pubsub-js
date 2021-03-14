@@ -17,7 +17,7 @@ export class TokenPolicyClient {
   async getIds(options: PubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       url(this.options.server)
-    , pathname('/api/pubsub-with-token-policies')
+    , pathname('/admin/pubsub-with-token-policies')
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -30,7 +30,7 @@ export class TokenPolicyClient {
   async get(id: string, options: PubSubManagerRequestOptions = {}): Promise<TokenPolicy> {
     const req = get(
       url(this.options.server)
-    , pathname(`/api/pubsub/${id}/token-policies`)
+    , pathname(`/admin/pubsub/${id}/token-policies`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -43,7 +43,7 @@ export class TokenPolicyClient {
   async setWriteTokenRequired(id: string, val: boolean, options: PubSubManagerRequestOptions = {}): Promise<void> {
     const req = put(
       url(this.options.server)
-    , pathname(`/api/pubsub/${id}/token-policies/write-token-required`)
+    , pathname(`/admin/pubsub/${id}/token-policies/write-token-required`)
     , password(this.options.adminPassword)
     , json(val)
     , options.signal && signal(options.signal)
@@ -55,7 +55,7 @@ export class TokenPolicyClient {
   async removeWriteTokenRequired(id: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
       url(this.options.server)
-    , pathname(`/api/pubsub/${id}/token-policies/write-token-required`)
+    , pathname(`/admin/pubsub/${id}/token-policies/write-token-required`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -66,7 +66,7 @@ export class TokenPolicyClient {
   async setReadTokenRequired(id: string, val: boolean, options: PubSubManagerRequestOptions = {}): Promise<void> {
     const req = put(
       url(this.options.server)
-    , pathname(`/api/pubsub/${id}/token-policies/read-token-required`)
+    , pathname(`/admin/pubsub/${id}/token-policies/read-token-required`)
     , password(this.options.adminPassword)
     , json(val)
     , options.signal && signal(options.signal)
@@ -78,7 +78,7 @@ export class TokenPolicyClient {
   async removeReadTokenRequired(id: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
       url(this.options.server)
-    , pathname(`/api/pubsub/${id}/token-policies/read-token-required`)
+    , pathname(`/admin/pubsub/${id}/token-policies/read-token-required`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
