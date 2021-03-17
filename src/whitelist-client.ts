@@ -4,12 +4,12 @@ import { get, put, del } from 'extra-request'
 import { url, pathname, signal } from 'extra-request/lib/es2018/transformers'
 import { ok, toJSON } from 'extra-response'
 import type { IPubSubManagerOptions } from './pubsub-manager'
-import { PubSubManagerRequestOptions } from './types'
+import { IPubSubManagerRequestOptions } from './types'
 
 export class WhitelistClient {
   constructor(private options: IPubSubManagerOptions) {}
 
-  async getIds(options: PubSubManagerRequestOptions = {}): Promise<string[]> {
+  async getIds(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       url(this.options.server)
     , pathname('/admin/whitelist')
@@ -22,7 +22,7 @@ export class WhitelistClient {
       .then(toJSON) as string[]
   }
 
-  async add(id: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
+  async add(id: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = put(
       url(this.options.server)
     , pathname(`/admin/whitelist/${id}`)
@@ -33,7 +33,7 @@ export class WhitelistClient {
     await fetch(req).then(ok)
   }
 
-  async remove(id: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
+  async remove(id: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
       url(this.options.server)
     , pathname(`/admin/whitelist/${id}`)

@@ -4,9 +4,9 @@ import { get, put, del } from 'extra-request'
 import { url, pathname, signal } from 'extra-request/lib/es2018/transformers'
 import { ok, toJSON } from 'extra-response'
 import type { IPubSubManagerOptions } from './pubsub-manager'
-import { PubSubManagerRequestOptions } from './types'
+import { IPubSubManagerRequestOptions } from './types'
 
-interface TokenInfo {
+interface ITokenInfo {
   token: string
   write: boolean
   read: boolean
@@ -15,7 +15,7 @@ interface TokenInfo {
 export class TokenClient {
   constructor(private options: IPubSubManagerOptions) {}
 
-  async getIds(options: PubSubManagerRequestOptions = {}): Promise<string[]> {
+  async getIds(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       url(this.options.server)
     , pathname('/admin/pubsub-with-tokens')
@@ -28,7 +28,7 @@ export class TokenClient {
       .then(toJSON) as string[]
   }
 
-  async getTokens(id: string, options: PubSubManagerRequestOptions = {}): Promise<TokenInfo[]> {
+  async getTokens(id: string, options: IPubSubManagerRequestOptions = {}): Promise<ITokenInfo[]> {
     const req = get(
       url(this.options.server)
     , pathname(`/admin/pubsub/${id}/tokens`)
@@ -38,10 +38,10 @@ export class TokenClient {
 
     return await fetch(req)
       .then(ok)
-      .then(toJSON) as TokenInfo[]
+      .then(toJSON) as ITokenInfo[]
   }
 
-  async addWriteToken(id: string, token: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
+  async addWriteToken(id: string, token: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = put(
       url(this.options.server)
     , pathname(`/admin/pubsub/${id}/tokens/${token}/write`)
@@ -52,7 +52,7 @@ export class TokenClient {
     await fetch(req).then(ok)
   }
 
-  async removeWriteToken(id: string, token: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
+  async removeWriteToken(id: string, token: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
       url(this.options.server)
     , pathname(`/admin/pubsub/${id}/tokens/${token}/write`)
@@ -63,7 +63,7 @@ export class TokenClient {
     await fetch(req).then(ok)
   }
 
-  async addReadToken(id: string, token: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
+  async addReadToken(id: string, token: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = put(
       url(this.options.server)
     , pathname(`/admin/pubsub/${id}/tokens/${token}/read`)
@@ -74,7 +74,7 @@ export class TokenClient {
     await fetch(req).then(ok)
   }
 
-  async removeReadToken(id: string, token: string, options: PubSubManagerRequestOptions = {}): Promise<void> {
+  async removeReadToken(id: string, token: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
       url(this.options.server)
     , pathname(`/admin/pubsub/${id}/tokens/${token}/read`)

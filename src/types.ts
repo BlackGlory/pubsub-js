@@ -1,3 +1,3 @@
-export interface PubSubManagerRequestOptions {
+export interface IPubSubManagerRequestOptions {
   signal?: AbortSignal
 }
