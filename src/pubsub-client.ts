@@ -6,6 +6,8 @@ import { map } from 'rxjs/operators'
 import { ok } from 'extra-response'
 import { assert, CustomError } from '@blackglory/errors'
 
+export { HTTPClientError } from '@blackglory/http-status'
+
 export interface IPubSubClientOptions {
   server: string
   token?: string
