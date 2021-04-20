@@ -39,7 +39,6 @@ interface IPubSubClientObserveOptions {
 ```ts
 interface IHeartbeatOptions {
   timeout: number
-  probes: number
 }
 ```
 
@@ -80,7 +79,7 @@ new PubSubManager({
 interface IPubSubManagerRequestOptions {
   signal?: AbortSignal
 }
-``
+```
 
 #### JsonSchema
 
