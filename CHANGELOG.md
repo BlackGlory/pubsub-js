@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.6](https://github.com/BlackGlory/pubsub-js/compare/v0.3.5...v0.3.6) (2021-04-20)
+
+
+### Features
+
+* remove IHeartbeatOptions.probes ([85b3d61](https://github.com/BlackGlory/pubsub-js/commit/85b3d61c4b93ebbd52c6517299cb1381f5e985b9))
+
 ### [0.3.5](https://github.com/BlackGlory/pubsub-js/compare/v0.3.4...v0.3.5) (2021-04-20)
 
 ### [0.3.4](https://github.com/BlackGlory/pubsub-js/compare/v0.3.3...v0.3.4) (2021-03-20)
