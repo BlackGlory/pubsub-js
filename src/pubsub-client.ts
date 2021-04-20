@@ -100,6 +100,9 @@ export class PubSubClient {
     })
   }
 
+  /**
+   * @throws {HeartbeatTimeoutError} from Observable
+   */
   subscribeJSON<T>(id: string, options?: IPubSubClientObserveOptions): Observable<T> {
     return this.subscribe(id, options).pipe(
       map(x => JSON.parse(x))
