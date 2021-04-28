@@ -1,9 +1,9 @@
 import { MockEvent } from 'mocksse'
 import { TOKEN } from '@test/utils'
 
-const id = 'id'
+const namespace = 'namespace'
 new MockEvent({
-  url: `http://localhost/pubsub/${id}?token=${TOKEN}`
+  url: `http://localhost/pubsub/${namespace}?token=${TOKEN}`
 , responses: [
     { type: 'message', data: 'null' }
   ]

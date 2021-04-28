@@ -45,25 +45,39 @@ interface IHeartbeatOptions {
 #### publish
 
 ```ts
-PubSubClient#publish(id: string, val: string, options?: IPubSubClientRequestOptions): Promise<void>
+PubSubClient#publish(
+  namespace: string
+, val: string
+, options?: IPubSubClientRequestOptions
+): Promise<void>
 ```
 
 #### publishJSON
 
 ```ts
-PubSubClient#publishJSON(id: string, val: Json, options?: IPubSubClientRequestOptions): Promise<void>
+PubSubClient#publishJSON(
+  namespace: string
+, val: Json
+, options?: IPubSubClientRequestOptions
+): Promise<void>
 ```
 
 #### subscribe
 
 ```ts
-PubSubClient#subscribe(id: string, options?: IPubSubClientObserveOptions): Observable<string>
+PubSubClient#subscribe(
+  namespace: string
+, options?: IPubSubClientObserveOptions
+): Observable<string>
 ```
 
 #### subscribeJSON
 
 ```ts
-PubSubClient#subscribeJSON(id: string, options?: IPubSubClientObserveOptions): Observable<Json>
+PubSubClient#subscribeJSON(
+  namespace: string
+, options?: IPubSubClientObserveOptions
+): Observable<Json>
 ```
 
 ### PubSubManager
@@ -83,42 +97,59 @@ interface IPubSubManagerRequestOptions {
 
 #### JsonSchema
 
-##### getIds
+##### getNamespaces
 
 ```ts
-PubSubManager#JsonSchema.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#JsonSchema.getNamespaces(
+  options?: IPubSubManagerRequestOptions
+): Promise<string[]>
 ```
 
 ##### get
 
 ```ts
-PubSubManager#JsonSchema.get(id: string, options?: IPubSubManagerRequestOptions): Promise<Json>
+PubSubManager#JsonSchema.get(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<Json>
 ```
 
 ##### set
 
 ```ts
-PubSubManager#JsonSchema.set(id: string, schema: Json, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#JsonSchema.set(
+  namespace: string
+, schema: Json
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### remove
 
 ```ts
-PubSubManager#JsonSchema.remove(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#JsonSchema.remove(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 #### RevisionPolicy
 
-##### getIds
+##### getNamespaces
 
 ```ts
-PubSubManager#RevisionPolicy.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#RevisionPolicy.getNamespaces(
+  options?: IPubSubManagerRequestOptions
+): Promise<string[]>
 ```
 
 ##### get
 
 ```ts
-PubSubManager#RevisionPolicy.get(id: string, options?: IPubSubManagerRequestOptions): Promise<{
+PubSubManager#RevisionPolicy.get(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<{
   updateRevisionRequired: boolean | null
   deleteRevisionRequired: boolean | null
 }>
@@ -127,79 +158,114 @@ PubSubManager#RevisionPolicy.get(id: string, options?: IPubSubManagerRequestOpti
 ##### setUpdateRevisionRequired
 
 ```ts
-PubSubManager#RevisionPolicy.setUpdateRevisionRequired(id: string, val: boolean, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#RevisionPolicy.setUpdateRevisionRequired(
+  namespace: string
+, val: boolean
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### removeUpdateRevisionRequired
 
 ```ts
-PubSubManager#RevisionPolicy.removeUpdateRevisionRequired(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#RevisionPolicy.removeUpdateRevisionRequired(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### setDeleteRevisionRequired
 
 ```ts
-PubSubManager#RevisionPolicy.setDeleteRevisionRequired(id: string, val: boolean, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#RevisionPolicy.setDeleteRevisionRequired(
+  namespace: string
+, val: boolean
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### removeDeleteRevisionRequired
 
 ```ts
-PubSubManager#RevisionPolicy.removeDeleteRevisionRequired(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#RevisionPolicy.removeDeleteRevisionRequired(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 #### Blacklist
 
-##### getIds
+##### getNamespaces
 
 ```ts
-PubSubManager#Blacklist.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#Blacklist.getNamespaces(
+  options?: IPubSubManagerRequestOptions
+): Promise<string[]>
 ```
 
 ##### add
 
 ```ts
-PubSubManager#Blacklist.add(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#Blacklist.add(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### remove
 
 ```ts
-PubSubManager#Blacklist.remove(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#Blacklist.remove(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 #### Whitelist
 
-##### getIds
+##### getNamespaces
 
 ```ts
-PubSubManager#Whitelist.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#Whitelist.getNamespaces(
+  options?: IPubSubManagerRequestOptions
+): Promise<string[]>
 ```
 
 ##### add
 
 ```ts
-PubSubManager#Whitelist.add(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#Whitelist.add(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### remove
 
 ```ts
-PubSubManager#Whitelist.remove(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#Whitelist.remove(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 #### TokenPolicy
 
-##### getIds
+##### getNamespaces
 
 ```ts
-PubSubManager#TokenPolicy.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#TokenPolicy.getNamespaces(
+  options?: IPubSubManagerRequestOptions
+): Promise<string[]>
 ```
 
 ##### get
 
 ```ts
-PubSubManager#TokenPolicy.get(id: string, options?: IPubSubManagerRequestOptions): Promise<{
+PubSubManager#TokenPolicy.get(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<{
   writeTokenRequired: boolean | null
   readTokenRequired: boolean | null
 }>
@@ -208,40 +274,59 @@ PubSubManager#TokenPolicy.get(id: string, options?: IPubSubManagerRequestOptions
 ##### setWriteTokenRequired
 
 ```ts
-PubSubManager#TokenPolicy.setWriteTokenRequired(id: string, val: boolean, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#TokenPolicy.setWriteTokenRequired(
+  namespace: string
+, val: boolean
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### removeWriteTokenRequired
 
 ```ts
-PubSubManager#TokenPolicy.removeWriteTokenRequired(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#TokenPolicy.removeWriteTokenRequired(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### setReadTokenRequired
 
 
 ```ts
-PubSubManager#TokenPolicy.setReadTokenRequired(id: string, val: boolean, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#TokenPolicy.setReadTokenRequired(
+  namespace: string
+, val: boolean
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### removeReadTokenRequired
 
 ```ts
-PubSubManager#TokenPolicy.removeReadTokenRequired(id: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#TokenPolicy.removeReadTokenRequired(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 #### Token
 
-##### getIds
+##### getNamespaces
 
 ```ts
-PubSubManager#Token.getIds(options?: IPubSubManagerRequestOptions): Promise<string[]>
+PubSubManager#Token.getNamespaces(
+  options?: IPubSubManagerRequestOptions
+): Promise<string[]>
 ```
 
 ##### getTokens
 
 ```ts
-PubSubManager#Token.getTokens(id: string, options?: IPubSubManagerRequestOptions): Promise<Array<{
+PubSubManager#Token.getTokens(
+  namespace: string
+, options?: IPubSubManagerRequestOptions
+): Promise<Array<{
   token: string
   write: boolean
   read: boolean
@@ -251,23 +336,39 @@ PubSubManager#Token.getTokens(id: string, options?: IPubSubManagerRequestOptions
 ##### addWriteToken
 
 ```ts
-PubSubManager#Token.addWriteToken(id: string, token: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#Token.addWriteToken(
+  namespace: string
+, token: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### removeWriteToken
 
 ```ts
-PubSubManager#Token.removeWriteToken(id: string, token: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#Token.removeWriteToken(
+  namespace: string
+, token: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### addReadToken
 
 ```ts
-PubSubManager#Token.addReadToken(id: string, token: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#Token.addReadToken(
+  namespace: string
+, token: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```
 
 ##### removeReadToken
 
 ```ts
-PubSubManager#Token.removeReadToken(id: string, token: string, options?: IPubSubManagerRequestOptions): Promise<void>
+PubSubManager#Token.removeReadToken(
+  namespace: string
+, token: string
+, options?: IPubSubManagerRequestOptions
+): Promise<void>
 ```

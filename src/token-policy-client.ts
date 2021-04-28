@@ -14,7 +14,7 @@ interface ITokenPolicy {
 export class TokenPolicyClient {
   constructor(private options: IPubSubManagerOptions) {}
 
-  async getIds(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
+  async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       url(this.options.server)
     , pathname('/admin/pubsub-with-token-policies')
@@ -27,10 +27,13 @@ export class TokenPolicyClient {
       .then(toJSON) as string[]
   }
 
-  async get(id: string, options: IPubSubManagerRequestOptions = {}): Promise<ITokenPolicy> {
+  async get(
+    namespace: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<ITokenPolicy> {
     const req = get(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/token-policies`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -40,10 +43,14 @@ export class TokenPolicyClient {
       .then(toJSON) as ITokenPolicy
   }
 
-  async setWriteTokenRequired(id: string, val: boolean, options: IPubSubManagerRequestOptions = {}): Promise<void> {
+  async setWriteTokenRequired(
+    namespace: string
+  , val: boolean
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void> {
     const req = put(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/token-policies/write-token-required`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
     , password(this.options.adminPassword)
     , json(val)
     , options.signal && signal(options.signal)
@@ -52,10 +59,13 @@ export class TokenPolicyClient {
     await fetch(req).then(ok)
   }
 
-  async removeWriteTokenRequired(id: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
+  async removeWriteTokenRequired(
+    namespace: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void> {
     const req = del(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/token-policies/write-token-required`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -63,10 +73,14 @@ export class TokenPolicyClient {
     await fetch(req).then(ok)
   }
 
-  async setReadTokenRequired(id: string, val: boolean, options: IPubSubManagerRequestOptions = {}): Promise<void> {
+  async setReadTokenRequired(
+    namespace: string
+  , val: boolean
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void> {
     const req = put(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/token-policies/read-token-required`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
     , password(this.options.adminPassword)
     , json(val)
     , options.signal && signal(options.signal)
@@ -75,10 +89,13 @@ export class TokenPolicyClient {
     await fetch(req).then(ok)
   }
 
-  async removeReadTokenRequired(id: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
+  async removeReadTokenRequired(
+    namespace: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void> {
     const req = del(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/token-policies/read-token-required`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )

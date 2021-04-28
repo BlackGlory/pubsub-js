@@ -3,7 +3,7 @@ import { rest } from 'msw'
 import { badToken } from '@test/utils'
 
 export const server = setupServer(
-  rest.post('/pubsub/:id', (req, res, ctx) => {
+  rest.post('/pubsub/:namespace', (req, res, ctx) => {
     if (badToken(req)) return res(ctx.status(401))
 
     return res(ctx.status(204))

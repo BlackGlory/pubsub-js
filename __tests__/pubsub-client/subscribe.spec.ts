@@ -6,11 +6,16 @@ import './subscribe.mock'
 jest.mock('eventsource', () => require('mocksse').EventSource)
 
 describe('PubSubClient', () => {
-  it('subscribe(id: string, options?: { token?: string }): Observable<string>', async done => {
-    const id = 'id'
+  test(`
+    subscribe(
+      namespace: string
+    , options?: { token?: string }
+    ): Observable<string>
+  `, async done => {
+    const namespace = 'namespace'
     const client = createClient()
 
-    const observable = client.subscribe(id)
+    const observable = client.subscribe(namespace)
     observable.subscribe(data => {
       expect(data).toBe('null')
       done()
@@ -19,11 +24,16 @@ describe('PubSubClient', () => {
     expect(observable).toBeInstanceOf(Observable)
   })
 
-  it('subscribeJSON(id: string, options?: { token?: string }): Observable<Json>', async done => {
-    const id = 'id'
+  test(`
+    subscribeJSON(
+      namespace: string
+    , options?: { token?: string }
+    ): Observable<Json>
+  `, async done => {
+    const namespace = 'namespace'
     const client = createClient()
 
-    const observable = client.subscribeJSON(id)
+    const observable = client.subscribeJSON(namespace)
     observable.subscribe(data => {
       expect(data).toBe(null)
       done()

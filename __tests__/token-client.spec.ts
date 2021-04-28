@@ -8,21 +8,25 @@ beforeEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 describe('TokenClient', () => {
-  it('getIds(): Promise<string[]>', async () => {
+  test('getNamespaces(): Promise<string[]>', async () => {
     const client = createClient()
 
-    const result = client.getIds()
+    const result = client.getNamespaces()
     const proResult = await result
 
     expect(result).toBePromise()
-    expect(proResult).toStrictEqual(['id'])
+    expect(proResult).toStrictEqual(['namespace'])
   })
 
-  it('getTokens(id: string): Promise<Array<{ token: string; write: boolean; read: boolean }>>', async () => {
+  test(`
+    getTokens(
+      namespace: string
+    ): Promise<Array<{ token: string; write: boolean; read: boolean }>>
+  `, async () => {
     const client = createClient()
-    const id = 'id'
+    const namespace = 'namespace'
 
-    const result = client.getTokens(id)
+    const result = client.getTokens(namespace)
     const proResult = await result
 
     expect(result).toBePromise()
@@ -33,48 +37,48 @@ describe('TokenClient', () => {
     }])
   })
 
-  it('addWriteToken(id: string, token: string): Promise<void>', async () => {
+  test('addWriteToken(namespace: string, token: string): Promise<void>', async () => {
     const client = createClient()
-    const id = 'id'
+    const namespace = 'namespace'
     const token = 'token'
 
-    const result = client.addWriteToken(id, token)
+    const result = client.addWriteToken(namespace, token)
     const proResult = await result
 
     expect(result).toBePromise()
     expect(proResult).toBeUndefined()
   })
 
-  it('removeWriteToken(id: string, token: string): Promise<void>', async () => {
+  test('removeWriteToken(namespace: string, token: string): Promise<void>', async () => {
     const client = createClient()
-    const id = 'id'
+    const namespace = 'namespace'
     const token = 'token'
 
-    const result = client.removeReadToken(id, token)
+    const result = client.removeReadToken(namespace, token)
     const proResult = await result
 
     expect(result).toBePromise()
     expect(proResult).toBeUndefined()
   })
 
-  it('addReadToken(id: string, token: string): Promise<void>', async () => {
+  test('addReadToken(namespace: string, token: string): Promise<void>', async () => {
     const client = createClient()
-    const id = 'id'
+    const namespace = 'namespace'
     const token = 'token'
 
-    const result = client.addReadToken(id, token)
+    const result = client.addReadToken(namespace, token)
     const proResult = await result
 
     expect(result).toBePromise()
     expect(proResult).toBeUndefined()
   })
 
-  it('removeReadToken(id: string, token: string): Promise<void>', async () => {
+  test('removeReadToken(namespace: string, token: string): Promise<void>', async () => {
     const client = createClient()
-    const id = 'id'
+    const namespace = 'namespace'
     const token = 'token'
 
-    const result = client.removeWriteToken(id, token)
+    const result = client.removeWriteToken(namespace, token)
     const proResult = await result
 
     expect(result).toBePromise()

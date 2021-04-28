@@ -8,24 +8,36 @@ beforeEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 describe('PubSubClient', () => {
-  it('publish(id: string, val: string, options?: { token?: string }): Promise<void>', async () => {
+  test(`
+    publish(
+      namespace: string
+    , val: string
+    , options?: { token?: string }
+    ): Promise<void>
+  `, async () => {
     const client = createClient()
-    const id = 'id'
+    const namespace = 'namespace'
     const val = 'null'
 
-    const result = client.publish(id, val)
+    const result = client.publish(namespace, val)
     const proResult = await result
 
     expect(result).toBePromise()
     expect(proResult).toBeUndefined()
   })
 
-  it('publishJSON(id: string, val: Json, options?: { token?: string }): Promise<void>', async () => {
+  test(`
+    publishJSON(
+      namespace: string
+    , val: Json
+    , options?: { token?: string }
+    ): Promise<void>
+  `, async () => {
     const client = createClient()
-    const id = 'id'
+    const namespace = 'namespace'
     const val = null
 
-    const result = client.publishJSON(id, val)
+    const result = client.publishJSON(namespace, val)
     const proResult = await result
 
     expect(result).toBePromise()

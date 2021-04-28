@@ -15,7 +15,7 @@ interface ITokenInfo {
 export class TokenClient {
   constructor(private options: IPubSubManagerOptions) {}
 
-  async getIds(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
+  async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       url(this.options.server)
     , pathname('/admin/pubsub-with-tokens')
@@ -28,10 +28,13 @@ export class TokenClient {
       .then(toJSON) as string[]
   }
 
-  async getTokens(id: string, options: IPubSubManagerRequestOptions = {}): Promise<ITokenInfo[]> {
+  async getTokens(
+    namespace: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<ITokenInfo[]> {
     const req = get(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/tokens`)
+    , pathname(`/admin/pubsub/${namespace}/tokens`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -41,10 +44,14 @@ export class TokenClient {
       .then(toJSON) as ITokenInfo[]
   }
 
-  async addWriteToken(id: string, token: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
+  async addWriteToken(
+    namespace: string
+  , token: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void> {
     const req = put(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/tokens/${token}/write`)
+    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/write`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -52,10 +59,14 @@ export class TokenClient {
     await fetch(req).then(ok)
   }
 
-  async removeWriteToken(id: string, token: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
+  async removeWriteToken(
+    namespace: string
+  , token: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void> {
     const req = del(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/tokens/${token}/write`)
+    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/write`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -63,10 +74,14 @@ export class TokenClient {
     await fetch(req).then(ok)
   }
 
-  async addReadToken(id: string, token: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
+  async addReadToken(
+    namespace: string
+  , token: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void> {
     const req = put(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/tokens/${token}/read`)
+    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/read`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )
@@ -74,10 +89,14 @@ export class TokenClient {
     await fetch(req).then(ok)
   }
 
-  async removeReadToken(id: string, token: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
+  async removeReadToken(
+    namespace: string
+  , token: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void> {
     const req = del(
       url(this.options.server)
-    , pathname(`/admin/pubsub/${id}/tokens/${token}/read`)
+    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/read`)
     , password(this.options.adminPassword)
     , options.signal && signal(options.signal)
     )

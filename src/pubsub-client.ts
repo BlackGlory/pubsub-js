@@ -34,12 +34,16 @@ export interface IHeartbeatOptions {
 export class PubSubClient {
   constructor(private options: IPubSubClientOptions) {}
 
-  async publish(id: string, val: string, options: IPubSubClientRequestOptions = {}): Promise<void> {
+  async publish(
+    namespace: string
+  , val: string
+  , options: IPubSubClientRequestOptions = {}
+  ): Promise<void> {
     const token = options.token ?? this.options.token
 
     const req = post(
       url(this.options.server)
-    , pathname(`pubsub/${id}`)
+    , pathname(`pubsub/${namespace}`)
     , token && searchParams({ token })
     , text(val)
     , keepalive(options.keepalive ?? this.options.keepalive)
@@ -48,17 +52,24 @@ export class PubSubClient {
     await fetch(req).then(ok)
   }
 
-  async publishJSON<T>(id: string, val: T, options?: IPubSubClientRequestOptions): Promise<void> {
-    return await this.publish(id, JSON.stringify(val), options)
+  async publishJSON<T>(
+    namespace: string
+  , val: T
+  , options?: IPubSubClientRequestOptions
+  ): Promise<void> {
+    return await this.publish(namespace, JSON.stringify(val), options)
   }
 
   /**
    * @throws {HeartbeatTimeoutError} from Observable
    */
-  subscribe(id: string, options: IPubSubClientObserveOptions = {}): Observable<string> {
+  subscribe(
+    namespace: string
+  , options: IPubSubClientObserveOptions = {}
+  ): Observable<string> {
     return new Observable(observer => {
       const token = options.token ?? this.options.token
-      const url = new URL(`/pubsub/${id}`, this.options.server)
+      const url = new URL(`/pubsub/${namespace}`, this.options.server)
       if (token) url.searchParams.append('token', token)
 
       const es = new EventSource(url.href)
@@ -103,8 +114,11 @@ export class PubSubClient {
   /**
    * @throws {HeartbeatTimeoutError} from Observable
    */
-  subscribeJSON<T>(id: string, options?: IPubSubClientObserveOptions): Observable<T> {
-    return this.subscribe(id, options).pipe(
+  subscribeJSON<T>(
+    namespace: string
+  , options?: IPubSubClientObserveOptions
+  ): Observable<T> {
+    return this.subscribe(namespace, options).pipe(
       map(x => JSON.parse(x))
     )
   }

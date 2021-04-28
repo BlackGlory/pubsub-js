@@ -8,11 +8,11 @@ export const server = setupServer(
 
     return res(
       ctx.status(200)
-    , ctx.json(['id'])
+    , ctx.json(['namespace'])
     )
   })
 
-, rest.get('/admin/pubsub/:id/token-policies', (req, res, ctx) => {
+, rest.get('/admin/pubsub/:namespace/token-policies', (req, res, ctx) => {
     if (badAuth(req)) return res(ctx.status(401))
 
     return res(
@@ -24,27 +24,27 @@ export const server = setupServer(
     )
   })
 
-, rest.put('/admin/pubsub/:id/token-policies/write-token-required', (req, res, ctx) => {
+, rest.put('/admin/pubsub/:namespace/token-policies/write-token-required', (req, res, ctx) => {
     if (badAuth(req)) return res(ctx.status(401))
     if (badJson(req)) return res(ctx.status(400))
 
     return res(ctx.status(204))
   })
 
-, rest.delete('/admin/pubsub/:id/token-policies/write-token-required', (req, res, ctx) => {
+, rest.delete('/admin/pubsub/:namespace/token-policies/write-token-required', (req, res, ctx) => {
     if (badAuth(req)) return res(ctx.status(401))
 
     return res(ctx.status(204))
   })
 
-, rest.put('/admin/pubsub/:id/token-policies/read-token-required', (req, res, ctx) => {
+, rest.put('/admin/pubsub/:namespace/token-policies/read-token-required', (req, res, ctx) => {
     if (badAuth(req)) return res(ctx.status(401))
     if (badJson(req)) return res(ctx.status(400))
 
     return res(ctx.status(204))
   })
 
-, rest.delete('/admin/pubsub/:id/token-policies/read-token-required', (req, res, ctx) => {
+, rest.delete('/admin/pubsub/:namespace/token-policies/read-token-required', (req, res, ctx) => {
     if (badAuth(req)) return res(ctx.status(401))
 
     return res(ctx.status(204))
