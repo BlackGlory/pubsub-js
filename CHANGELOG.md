@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.4.0](https://github.com/BlackGlory/pubsub-js/compare/v0.3.7...v0.4.0) (2021-04-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename
+
+* rename ([60dd3b1](https://github.com/BlackGlory/pubsub-js/commit/60dd3b1f3715d99ae30b6fe5e16fdfa6a6b36036))
+
 ### [0.3.7](https://github.com/BlackGlory/pubsub-js/compare/v0.3.6...v0.3.7) (2021-04-20)
 
 ### [0.3.6](https://github.com/BlackGlory/pubsub-js/compare/v0.3.5...v0.3.6) (2021-04-20)
