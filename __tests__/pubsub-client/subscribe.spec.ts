@@ -11,7 +11,7 @@ describe('PubSubClient', () => {
       namespace: string
     , options?: { token?: string }
     ): Observable<string>
-  `, async done => {
+  `, done => {
     const namespace = 'namespace'
     const client = createClient()
 
@@ -29,7 +29,7 @@ describe('PubSubClient', () => {
       namespace: string
     , options?: { token?: string }
     ): Observable<Json>
-  `, async done => {
+  `, done => {
     const namespace = 'namespace'
     const client = createClient()
 
