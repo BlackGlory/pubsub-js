@@ -1,25 +1,19 @@
 import { fetch } from 'extra-fetch'
-import { password } from './utils'
 import { get, put, del } from 'extra-request'
-import { url, pathname, json, signal } from 'extra-request/lib/es2018/transformers'
+import { pathname, json } from 'extra-request/lib/es2018/transformers'
 import { ok, toJSON } from 'extra-response'
-import type { IPubSubManagerOptions } from './pubsub-manager'
-import { IPubSubManagerRequestOptions } from './types'
+import { IPubSubManagerRequestOptions, PubSubManagerBase } from './utils'
 
 interface ITokenPolicy {
   writeTokenRequired: boolean | null
   readTokenRequired: boolean | null
 }
 
-export class TokenPolicyClient {
-  constructor(private options: IPubSubManagerOptions) {}
-
+export class TokenPolicyClient extends PubSubManagerBase {
   async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname('/admin/pubsub-with-token-policies')
-    , password(this.options.adminPassword)
-    , options.signal && signal(options.signal)
     )
 
     return await fetch(req)
@@ -32,10 +26,8 @@ export class TokenPolicyClient {
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<ITokenPolicy> {
     const req = get(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname(`/admin/pubsub/${namespace}/token-policies`)
-    , password(this.options.adminPassword)
-    , options.signal && signal(options.signal)
     )
 
     return await fetch(req)
@@ -49,11 +41,9 @@ export class TokenPolicyClient {
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = put(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
-    , password(this.options.adminPassword)
     , json(val)
-    , options.signal && signal(options.signal)
     )
 
     await fetch(req).then(ok)
@@ -64,10 +54,8 @@ export class TokenPolicyClient {
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = del(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
-    , password(this.options.adminPassword)
-    , options.signal && signal(options.signal)
     )
 
     await fetch(req).then(ok)
@@ -79,11 +67,9 @@ export class TokenPolicyClient {
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = put(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
-    , password(this.options.adminPassword)
     , json(val)
-    , options.signal && signal(options.signal)
     )
 
     await fetch(req).then(ok)
@@ -94,10 +80,8 @@ export class TokenPolicyClient {
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = del(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
-    , password(this.options.adminPassword)
-    , options.signal && signal(options.signal)
     )
 
     await fetch(req).then(ok)

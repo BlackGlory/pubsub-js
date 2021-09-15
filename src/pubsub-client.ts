@@ -1,11 +1,14 @@
 import { fetch, EventSource } from 'extra-fetch'
-import { post } from 'extra-request'
-import { url, pathname, text, searchParams, keepalive } from 'extra-request/lib/es2018/transformers'
+import { post, IHTTPOptionsTransformer } from 'extra-request'
+import { url, pathname, text, searchParams, keepalive, signal }
+  from 'extra-request/lib/es2018/transformers'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ok } from 'extra-response'
 import { assert, CustomError } from '@blackglory/errors'
 import { setTimeout } from 'extra-timers'
+import { raceAbortSignals, timeoutSignal } from 'extra-promise'
+import { Falsy } from 'justypes'
 
 export { HTTPClientError } from '@blackglory/http-status'
 
@@ -14,12 +17,14 @@ export interface IPubSubClientOptions {
   token?: string
   keepalive?: boolean
   heartbeat?: IHeartbeatOptions
+  timeout?: number
 }
 
 export interface IPubSubClientRequestOptions {
   signal?: AbortSignal
   token?: string
   keepalive?: boolean
+  timeout?: number | false
 }
 
 export interface IPubSubClientObserveOptions {
@@ -34,19 +39,34 @@ export interface IHeartbeatOptions {
 export class PubSubClient {
   constructor(private options: IPubSubClientOptions) {}
 
+  private getCommonTransformers(
+    options: IPubSubClientRequestOptions
+  ): Array<IHTTPOptionsTransformer | Falsy> {
+    const token = options.token ?? this.options.token
+
+    return [
+      url(this.options.server)
+    , token && searchParams({ token })
+    , signal(raceAbortSignals([
+        options.signal
+      , options.timeout !== false && (
+          (options.timeout && timeoutSignal(options.timeout)) ??
+          (this.options.timeout && timeoutSignal(this.options.timeout))
+        )
+      ]))
+    , keepalive(options.keepalive ?? this.options.keepalive)
+    ]
+  }
+
   async publish(
     namespace: string
   , val: string
   , options: IPubSubClientRequestOptions = {}
   ): Promise<void> {
-    const token = options.token ?? this.options.token
-
     const req = post(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname(`pubsub/${namespace}`)
-    , token && searchParams({ token })
     , text(val)
-    , keepalive(options.keepalive ?? this.options.keepalive)
     )
 
     await fetch(req).then(ok)

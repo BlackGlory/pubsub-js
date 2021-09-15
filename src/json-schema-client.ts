@@ -1,21 +1,15 @@
 import { fetch } from 'extra-fetch'
 import { Json } from 'justypes'
-import { password } from './utils'
 import { get, put, del } from 'extra-request'
-import { url, pathname, json, signal } from 'extra-request/lib/es2018/transformers'
+import { pathname, json } from 'extra-request/lib/es2018/transformers'
 import { ok, toJSON } from 'extra-response'
-import type { IPubSubManagerOptions } from './pubsub-manager'
-import { IPubSubManagerRequestOptions } from './types'
+import { IPubSubManagerRequestOptions, PubSubManagerBase } from './utils'
 
-export class JsonSchemaClient {
-  constructor(private options: IPubSubManagerOptions) {}
-
+export class JsonSchemaClient extends PubSubManagerBase {
   async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname('/admin/pubsub-with-json-schema')
-    , password(this.options.adminPassword)
-    , options.signal && signal(options.signal)
     )
 
     return await fetch(req)
@@ -25,10 +19,8 @@ export class JsonSchemaClient {
 
   async get(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<unknown> {
     const req = get(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname(`/admin/pubsub/${namespace}/json-schema`)
-    , password(this.options.adminPassword)
-    , options.signal && signal(options.signal)
     )
 
     return await fetch(req)
@@ -42,11 +34,9 @@ export class JsonSchemaClient {
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = put(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname(`/admin/pubsub/${namespace}/json-schema`)
-    , password(this.options.adminPassword)
     , json(schema)
-    , options.signal && signal(options.signal)
     )
 
     await fetch(req).then(ok)
@@ -54,10 +44,8 @@ export class JsonSchemaClient {
 
   async remove(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
-      url(this.options.server)
+      ...this.getCommonTransformers(options)
     , pathname(`/admin/pubsub/${namespace}/json-schema`)
-    , password(this.options.adminPassword)
-    , options.signal && signal(options.signal)
     )
 
     await fetch(req).then(ok)

@@ -18,6 +18,7 @@ new PubSubClient{
 , token?: string
 , keepalive?: boolean
 , heartbeat?: IHeartbeatOptions
+, timeout?: number
 })
 ```
 
@@ -26,6 +27,7 @@ interface IPubSubClientRequestOptions {
   signal?: AbortSignal
   token?: string
   keepalive?: boolean
+  timeout?: number | false
 }
 ```
 
@@ -86,12 +88,16 @@ PubSubClient#subscribeJSON(
 new PubSubManager({
   server: string
 , adminPassword: string
+, keepalive?: boolean
+, timeout?: number
 })
 ```
 
 ```ts
 interface IPubSubManagerRequestOptions {
   signal?: AbortSignal
+  keepalive?: boolean
+  timeout?: number | false
 }
 ```
 

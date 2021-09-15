@@ -7,6 +7,8 @@ import { TokenClient } from './token-client'
 export interface IPubSubManagerOptions {
   server: string
   adminPassword: string
+  keepalive?: boolean
+  timeout?: number
 }
 
 export class PubSubManager {
