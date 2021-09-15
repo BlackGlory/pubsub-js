@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.2](https://github.com/BlackGlory/pubsub-js/compare/v0.4.1...v0.4.2) (2021-09-15)
+
+
+### Features
+
+* add keepalive, timeout ([3a56e02](https://github.com/BlackGlory/pubsub-js/commit/3a56e020126330bbb4f4024b4cc21311468f0367))
+
 ### [0.4.1](https://github.com/BlackGlory/pubsub-js/compare/v0.4.0...v0.4.1) (2021-07-03)
 
 ## [0.4.0](https://github.com/BlackGlory/pubsub-js/compare/v0.3.7...v0.4.0) (2021-04-28)
