@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.4](https://github.com/BlackGlory/pubsub-js/compare/v0.4.3...v0.4.4) (2021-09-18)
+
+
+### Bug Fixes
+
+* extra-request ([13d6d2b](https://github.com/BlackGlory/pubsub-js/commit/13d6d2b64a2fdfb1990c4b8da8b5a134987d0ee5))
+
 ### [0.4.3](https://github.com/BlackGlory/pubsub-js/compare/v0.4.2...v0.4.3) (2021-09-16)
 
 ### [0.4.2](https://github.com/BlackGlory/pubsub-js/compare/v0.4.1...v0.4.2) (2021-09-15)
