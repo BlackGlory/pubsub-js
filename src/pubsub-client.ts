@@ -1,7 +1,7 @@
 import { fetch, EventSource } from 'extra-fetch'
 import { post, IHTTPOptionsTransformer } from 'extra-request'
 import { url, pathname, text, searchParams, keepalive, signal }
-  from 'extra-request/lib/es2018/transformers'
+  from 'extra-request/transformers/index.js'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ok } from 'extra-response'
