@@ -11,6 +11,9 @@ interface ITokenInfo {
 }
 
 export class TokenClient extends PubSubManagerBase {
+  /**
+   * @throws {AbortError}
+   */
   async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       ...this.getCommonTransformers(options)
@@ -22,6 +25,9 @@ export class TokenClient extends PubSubManagerBase {
       .then(toJSON) as string[]
   }
 
+  /**
+   * @throws {AbortError}
+   */
   async getTokens(
     namespace: string
   , options: IPubSubManagerRequestOptions = {}
@@ -36,6 +42,9 @@ export class TokenClient extends PubSubManagerBase {
       .then(toJSON) as ITokenInfo[]
   }
 
+  /**
+   * @throws {AbortError}
+   */
   async addWriteToken(
     namespace: string
   , token: string
@@ -49,6 +58,9 @@ export class TokenClient extends PubSubManagerBase {
     await fetch(req).then(ok)
   }
 
+  /**
+   * @throws {AbortError}
+   */
   async removeWriteToken(
     namespace: string
   , token: string
@@ -62,6 +74,9 @@ export class TokenClient extends PubSubManagerBase {
     await fetch(req).then(ok)
   }
 
+  /**
+   * @throws {AbortError}
+   */
   async addReadToken(
     namespace: string
   , token: string
@@ -75,6 +90,9 @@ export class TokenClient extends PubSubManagerBase {
     await fetch(req).then(ok)
   }
 
+  /**
+   * @throws {AbortError}
+   */
   async removeReadToken(
     namespace: string
   , token: string

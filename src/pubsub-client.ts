@@ -58,6 +58,9 @@ export class PubSubClient {
     ]
   }
 
+  /**
+   * @throws {AbortError}
+   */
   async publish(
     namespace: string
   , val: string
@@ -72,6 +75,9 @@ export class PubSubClient {
     await fetch(req).then(ok)
   }
 
+  /**
+   * @throws {AbortError}
+   */
   async publishJSON<T>(
     namespace: string
   , val: T

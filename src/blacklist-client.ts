@@ -5,6 +5,9 @@ import { ok, toJSON } from 'extra-response'
 import { IPubSubManagerRequestOptions, PubSubManagerBase } from './utils'
 
 export class BlacklistClient extends PubSubManagerBase {
+  /**
+   * @throws {AbortError}
+   */
   async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       ...this.getCommonTransformers(options)
@@ -16,6 +19,9 @@ export class BlacklistClient extends PubSubManagerBase {
       .then(toJSON) as string[]
   }
 
+  /**
+   * @throws {AbortError}
+   */
   async add(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = put(
       ...this.getCommonTransformers(options)
@@ -25,6 +31,9 @@ export class BlacklistClient extends PubSubManagerBase {
     await fetch(req).then(ok)
   }
 
+  /**
+   * @throws {AbortError}
+   */
   async remove(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
       ...this.getCommonTransformers(options)
