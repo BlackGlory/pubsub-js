@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.4.5](https://github.com/BlackGlory/pubsub-js/compare/v0.4.4...v0.4.5) (2021-10-06)
+
+
+### Features
+
+* export AbortError ([86483f4](https://github.com/BlackGlory/pubsub-js/commit/86483f40e59dc20177dd358468140ac84834dffe))
+
 ### [0.4.4](https://github.com/BlackGlory/pubsub-js/compare/v0.4.3...v0.4.4) (2021-09-18)
 
 
