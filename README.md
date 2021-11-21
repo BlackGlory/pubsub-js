@@ -1,7 +1,9 @@
 # pubsub-js
+This library works with [PubSub] v1.
+
+[PubSub]: https://github.com/BlackGlory/pubsub
 
 ## Install
-
 ```sh
 npm install --save @blackglory/pubsub-js
 # or
@@ -9,9 +11,7 @@ yarn add @blackglory/pubsub-js
 ```
 
 ## API
-
 ### PubSubClient
-
 ```ts
 new PubSubClient{
   server: string
@@ -45,7 +45,6 @@ interface IHeartbeatOptions {
 ```
 
 #### publish
-
 ```ts
 PubSubClient#publish(
   namespace: string
