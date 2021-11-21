@@ -54,7 +54,6 @@ PubSubClient#publish(
 ```
 
 #### publishJSON
-
 ```ts
 PubSubClient#publishJSON(
   namespace: string
@@ -64,7 +63,6 @@ PubSubClient#publishJSON(
 ```
 
 #### subscribe
-
 ```ts
 PubSubClient#subscribe(
   namespace: string
@@ -73,7 +71,6 @@ PubSubClient#subscribe(
 ```
 
 #### subscribeJSON
-
 ```ts
 PubSubClient#subscribeJSON(
   namespace: string
@@ -82,7 +79,6 @@ PubSubClient#subscribeJSON(
 ```
 
 ### PubSubManager
-
 ```ts
 new PubSubManager({
   server: string
@@ -101,9 +97,7 @@ interface IPubSubManagerRequestOptions {
 ```
 
 #### JsonSchema
-
 ##### getNamespaces
-
 ```ts
 PubSubManager#JsonSchema.getNamespaces(
   options?: IPubSubManagerRequestOptions
@@ -111,7 +105,6 @@ PubSubManager#JsonSchema.getNamespaces(
 ```
 
 ##### get
-
 ```ts
 PubSubManager#JsonSchema.get(
   namespace: string
@@ -120,7 +113,6 @@ PubSubManager#JsonSchema.get(
 ```
 
 ##### set
-
 ```ts
 PubSubManager#JsonSchema.set(
   namespace: string
@@ -130,7 +122,6 @@ PubSubManager#JsonSchema.set(
 ```
 
 ##### remove
-
 ```ts
 PubSubManager#JsonSchema.remove(
   namespace: string
@@ -139,9 +130,7 @@ PubSubManager#JsonSchema.remove(
 ```
 
 #### RevisionPolicy
-
 ##### getNamespaces
-
 ```ts
 PubSubManager#RevisionPolicy.getNamespaces(
   options?: IPubSubManagerRequestOptions
@@ -149,7 +138,6 @@ PubSubManager#RevisionPolicy.getNamespaces(
 ```
 
 ##### get
-
 ```ts
 PubSubManager#RevisionPolicy.get(
   namespace: string
@@ -161,7 +149,6 @@ PubSubManager#RevisionPolicy.get(
 ```
 
 ##### setUpdateRevisionRequired
-
 ```ts
 PubSubManager#RevisionPolicy.setUpdateRevisionRequired(
   namespace: string
@@ -171,7 +158,6 @@ PubSubManager#RevisionPolicy.setUpdateRevisionRequired(
 ```
 
 ##### removeUpdateRevisionRequired
-
 ```ts
 PubSubManager#RevisionPolicy.removeUpdateRevisionRequired(
   namespace: string
@@ -180,7 +166,6 @@ PubSubManager#RevisionPolicy.removeUpdateRevisionRequired(
 ```
 
 ##### setDeleteRevisionRequired
-
 ```ts
 PubSubManager#RevisionPolicy.setDeleteRevisionRequired(
   namespace: string
@@ -190,7 +175,6 @@ PubSubManager#RevisionPolicy.setDeleteRevisionRequired(
 ```
 
 ##### removeDeleteRevisionRequired
-
 ```ts
 PubSubManager#RevisionPolicy.removeDeleteRevisionRequired(
   namespace: string
@@ -199,9 +183,7 @@ PubSubManager#RevisionPolicy.removeDeleteRevisionRequired(
 ```
 
 #### Blacklist
-
 ##### getNamespaces
-
 ```ts
 PubSubManager#Blacklist.getNamespaces(
   options?: IPubSubManagerRequestOptions
@@ -209,7 +191,6 @@ PubSubManager#Blacklist.getNamespaces(
 ```
 
 ##### add
-
 ```ts
 PubSubManager#Blacklist.add(
   namespace: string
@@ -218,7 +199,6 @@ PubSubManager#Blacklist.add(
 ```
 
 ##### remove
-
 ```ts
 PubSubManager#Blacklist.remove(
   namespace: string
@@ -227,9 +207,7 @@ PubSubManager#Blacklist.remove(
 ```
 
 #### Whitelist
-
 ##### getNamespaces
-
 ```ts
 PubSubManager#Whitelist.getNamespaces(
   options?: IPubSubManagerRequestOptions
@@ -237,7 +215,6 @@ PubSubManager#Whitelist.getNamespaces(
 ```
 
 ##### add
-
 ```ts
 PubSubManager#Whitelist.add(
   namespace: string
@@ -246,7 +223,6 @@ PubSubManager#Whitelist.add(
 ```
 
 ##### remove
-
 ```ts
 PubSubManager#Whitelist.remove(
   namespace: string
@@ -255,9 +231,7 @@ PubSubManager#Whitelist.remove(
 ```
 
 #### TokenPolicy
-
 ##### getNamespaces
-
 ```ts
 PubSubManager#TokenPolicy.getNamespaces(
   options?: IPubSubManagerRequestOptions
@@ -265,7 +239,6 @@ PubSubManager#TokenPolicy.getNamespaces(
 ```
 
 ##### get
-
 ```ts
 PubSubManager#TokenPolicy.get(
   namespace: string
@@ -277,7 +250,6 @@ PubSubManager#TokenPolicy.get(
 ```
 
 ##### setWriteTokenRequired
-
 ```ts
 PubSubManager#TokenPolicy.setWriteTokenRequired(
   namespace: string
@@ -287,7 +259,6 @@ PubSubManager#TokenPolicy.setWriteTokenRequired(
 ```
 
 ##### removeWriteTokenRequired
-
 ```ts
 PubSubManager#TokenPolicy.removeWriteTokenRequired(
   namespace: string
@@ -296,8 +267,6 @@ PubSubManager#TokenPolicy.removeWriteTokenRequired(
 ```
 
 ##### setReadTokenRequired
-
-
 ```ts
 PubSubManager#TokenPolicy.setReadTokenRequired(
   namespace: string
@@ -307,7 +276,6 @@ PubSubManager#TokenPolicy.setReadTokenRequired(
 ```
 
 ##### removeReadTokenRequired
-
 ```ts
 PubSubManager#TokenPolicy.removeReadTokenRequired(
   namespace: string
@@ -316,9 +284,7 @@ PubSubManager#TokenPolicy.removeReadTokenRequired(
 ```
 
 #### Token
-
 ##### getNamespaces
-
 ```ts
 PubSubManager#Token.getNamespaces(
   options?: IPubSubManagerRequestOptions
@@ -326,7 +292,6 @@ PubSubManager#Token.getNamespaces(
 ```
 
 ##### getTokens
-
 ```ts
 PubSubManager#Token.getTokens(
   namespace: string
@@ -339,7 +304,6 @@ PubSubManager#Token.getTokens(
 ```
 
 ##### addWriteToken
-
 ```ts
 PubSubManager#Token.addWriteToken(
   namespace: string
@@ -349,7 +313,6 @@ PubSubManager#Token.addWriteToken(
 ```
 
 ##### removeWriteToken
-
 ```ts
 PubSubManager#Token.removeWriteToken(
   namespace: string
@@ -359,7 +322,6 @@ PubSubManager#Token.removeWriteToken(
 ```
 
 ##### addReadToken
-
 ```ts
 PubSubManager#Token.addReadToken(
   namespace: string
@@ -369,7 +331,6 @@ PubSubManager#Token.addReadToken(
 ```
 
 ##### removeReadToken
-
 ```ts
 PubSubManager#Token.removeReadToken(
   namespace: string
