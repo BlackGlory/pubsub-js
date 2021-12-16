@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/BlackGlory/pubsub-js/compare/v1.0.0...v2.0.0) (2021-12-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* - The minimum version is Node.js v16
+
+* upgrade dependencies ([f925b11](https://github.com/BlackGlory/pubsub-js/commit/f925b110d4e797e1e631b9ca817c8e2df7d13072))
+
 ## [1.0.0](https://github.com/BlackGlory/pubsub-js/compare/v0.4.6...v1.0.0) (2021-11-21)
 
 ### [0.4.6](https://github.com/BlackGlory/pubsub-js/compare/v0.4.5...v0.4.6) (2021-10-14)
