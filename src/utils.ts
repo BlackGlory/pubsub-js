@@ -1,6 +1,6 @@
 import { IHTTPOptionsTransformer } from 'extra-request'
 import { url, signal, keepalive, bearerAuth } from 'extra-request/transformers/index.js'
-import { timeoutSignal, raceAbortSignals } from 'extra-promise'
+import { timeoutSignal, raceAbortSignals } from 'extra-abort'
 import type { IPubSubManagerOptions } from './pubsub-manager'
 
 export interface IPubSubManagerRequestOptions {
