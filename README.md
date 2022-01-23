@@ -1,8 +1,4 @@
 # pubsub-js
-This library works with [PubSub] v1.
-
-[PubSub]: https://github.com/BlackGlory/pubsub
-
 ## Install
 ```sh
 npm install --save @blackglory/pubsub-js
