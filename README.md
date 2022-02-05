@@ -12,6 +12,10 @@ yarn add @blackglory/pubsub-js
 new PubSubClient{
   server: string
 , token?: string
+, basicAuth?: {
+    username: string
+  , password: string
+  }
 , keepalive?: boolean
 , heartbeat?: IHeartbeatOptions
 , timeout?: number

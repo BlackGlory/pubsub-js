@@ -1,6 +1,6 @@
 import { fetch, EventSource } from 'extra-fetch'
 import { post, IHTTPOptionsTransformer } from 'extra-request'
-import { url, pathname, text, searchParams, keepalive, signal }
+import { url, pathname, text, searchParams, keepalive, signal, basicAuth }
   from 'extra-request/transformers/index.js'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -15,6 +15,10 @@ export { HTTPClientError } from '@blackglory/http-status'
 export interface IPubSubClientOptions {
   server: string
   token?: string
+  basicAuth?: {
+    username: string
+    password: string
+  }
   keepalive?: boolean
   heartbeat?: IHeartbeatOptions
   timeout?: number
@@ -43,9 +47,11 @@ export class PubSubClient {
     options: IPubSubClientRequestOptions
   ): Array<IHTTPOptionsTransformer | Falsy> {
     const token = options.token ?? this.options.token
+    const auth = this.options.basicAuth
 
     return [
       url(this.options.server)
+    , auth && basicAuth(auth.username, auth.password)
     , token && searchParams({ token })
     , signal(raceAbortSignals([
         options.signal
