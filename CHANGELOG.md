@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/BlackGlory/pubsub-js/compare/v3.0.0...v3.1.0) (2022-02-05)
+
+
+### Features
+
+* add basic auth support (only for publish) ([87f26c3](https://github.com/BlackGlory/pubsub-js/commit/87f26c30c5c4ef33faf0c609d3d26f32069e558e))
+
 ## [3.0.0](https://github.com/BlackGlory/pubsub-js/compare/v2.0.1...v3.0.0) (2022-01-17)
 
 
