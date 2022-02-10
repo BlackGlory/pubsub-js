@@ -9,6 +9,8 @@ export interface IPubSubManagerRequestOptions {
   timeout?: number | false
 }
 
+export const expectedVersion = '1.1.0'
+
 export class PubSubManagerBase {
   constructor(private options: IPubSubManagerOptions) {}
 
@@ -26,7 +28,7 @@ export class PubSubManagerBase {
         )
       ]))
     , keepalive(options.keepalive ?? this.options.keepalive)
-    , header('Accept-Version', '1.1.0')
+    , header('Accept-Version', expectedVersion)
     ]
   }
 }
