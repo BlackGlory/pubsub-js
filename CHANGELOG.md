@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/BlackGlory/pubsub-js/compare/v3.1.0...v3.2.0) (2022-02-10)
+
+
+### Features
+
+* add Accept-Version to PubSubClient ([fb04d0c](https://github.com/BlackGlory/pubsub-js/commit/fb04d0c958bdbd30d9340a15279bd497b7b86fc7))
+
 ## [3.1.0](https://github.com/BlackGlory/pubsub-js/compare/v3.0.0...v3.1.0) (2022-02-05)
 
 
