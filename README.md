@@ -9,332 +9,185 @@ yarn add @blackglory/pubsub-js
 ## API
 ### PubSubClient
 ```ts
-new PubSubClient{
+interface IPubSubClientOptions {
   server: string
-, token?: string
-, basicAuth?: {
+  token?: string
+  basicAuth?: {
     username: string
-  , password: string
+    password: string
   }
-, keepalive?: boolean
-, heartbeat?: IHeartbeatOptions
-, timeout?: number
-})
-```
+  keepalive?: boolean
+  heartbeat?: IHeartbeatOptions
+  timeout?: number
+}
 
-```ts
 interface IPubSubClientRequestOptions {
   signal?: AbortSignal
   token?: string
   keepalive?: boolean
   timeout?: number | false
 }
-```
 
-```ts
 interface IPubSubClientObserveOptions {
   token?: string
   heartbeat?: IHeartbeatOptions
 }
-```
 
-```ts
 interface IHeartbeatOptions {
   timeout: number
 }
-```
 
-#### publish
-```ts
-PubSubClient#publish(
-  namespace: string
-, val: string
-, options?: IPubSubClientRequestOptions
-): Promise<void>
-```
+class PubSubClient {
+  constructor(options: IPubSubClientOptions)
 
-#### publishJSON
-```ts
-PubSubClient#publishJSON(
-  namespace: string
-, val: Json
-, options?: IPubSubClientRequestOptions
-): Promise<void>
-```
+  publish(
+    namespace: string
+  , val: string
+  , options: IPubSubClientRequestOptions = {}
+  ): Promise<void>
 
-#### subscribe
-```ts
-PubSubClient#subscribe(
-  namespace: string
-, options?: IPubSubClientObserveOptions
-): Observable<string>
-```
+  publishJSON<T>(
+    namespace: string
+  , val: T
+  , options?: IPubSubClientRequestOptions
+  ): Promise<void>
 
-#### subscribeJSON
-```ts
-PubSubClient#subscribeJSON(
-  namespace: string
-, options?: IPubSubClientObserveOptions
-): Observable<Json>
+  subscribe(
+    namespace: string
+  , options: IPubSubClientObserveOptions = {}
+  ): Observable<string>
+
+  subscribeJSON<T>(
+    namespace: string
+  , options?: IPubSubClientObserveOptions
+  ): Observable<T>
+}
+
+class HeartbeatTimeoutError extends CustomError {}
 ```
 
 ### PubSubManager
 ```ts
-new PubSubManager({
+interface IPubSubManagerOptions {
   server: string
-, adminPassword: string
-, keepalive?: boolean
-, timeout?: number
-})
-```
-
-```ts
-interface IPubSubManagerRequestOptions {
-  signal?: AbortSignal
+  adminPassword: string
   keepalive?: boolean
-  timeout?: number | false
+  timeout?: number
+}
+
+class PubSubManager {
+  constructor(options: IPubSubManagerOptions)
+
+  JsonSchema: JsonSchemaClient
+  Blacklist: BlacklistClient
+  Whitelist: WhitelistClient
+  TokenPolicy: TokenPolicyClient
+  Token: TokenClient
 }
 ```
 
-#### JsonSchema
-##### getNamespaces
+#### JsonSchemaClient
 ```ts
-PubSubManager#JsonSchema.getNamespaces(
-  options?: IPubSubManagerRequestOptions
-): Promise<string[]>
+class JsonSchemaClient {
+  getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
+  get(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<unknown>
+  set(
+    namespace: string
+  , schema: Json
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+  remove(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void>
+}
 ```
 
-##### get
+#### BlacklistClient
 ```ts
-PubSubManager#JsonSchema.get(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<Json>
+class BlacklistClient {
+  getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
+  add(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void>
+  remove(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void>
+}
 ```
 
-##### set
+#### WhitelistClient
 ```ts
-PubSubManager#JsonSchema.set(
-  namespace: string
-, schema: Json
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
+class WhitelistClient {
+  getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
+  add(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void>
+  remove(
+    namespace: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+}
 ```
 
-##### remove
+#### TokenPolicyClient
 ```ts
-PubSubManager#JsonSchema.remove(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-#### RevisionPolicy
-##### getNamespaces
-```ts
-PubSubManager#RevisionPolicy.getNamespaces(
-  options?: IPubSubManagerRequestOptions
-): Promise<string[]>
-```
-
-##### get
-```ts
-PubSubManager#RevisionPolicy.get(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<{
-  updateRevisionRequired: boolean | null
-  deleteRevisionRequired: boolean | null
-}>
-```
-
-##### setUpdateRevisionRequired
-```ts
-PubSubManager#RevisionPolicy.setUpdateRevisionRequired(
-  namespace: string
-, val: boolean
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### removeUpdateRevisionRequired
-```ts
-PubSubManager#RevisionPolicy.removeUpdateRevisionRequired(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### setDeleteRevisionRequired
-```ts
-PubSubManager#RevisionPolicy.setDeleteRevisionRequired(
-  namespace: string
-, val: boolean
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### removeDeleteRevisionRequired
-```ts
-PubSubManager#RevisionPolicy.removeDeleteRevisionRequired(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-#### Blacklist
-##### getNamespaces
-```ts
-PubSubManager#Blacklist.getNamespaces(
-  options?: IPubSubManagerRequestOptions
-): Promise<string[]>
-```
-
-##### add
-```ts
-PubSubManager#Blacklist.add(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### remove
-```ts
-PubSubManager#Blacklist.remove(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-#### Whitelist
-##### getNamespaces
-```ts
-PubSubManager#Whitelist.getNamespaces(
-  options?: IPubSubManagerRequestOptions
-): Promise<string[]>
-```
-
-##### add
-```ts
-PubSubManager#Whitelist.add(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### remove
-```ts
-PubSubManager#Whitelist.remove(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-#### TokenPolicy
-##### getNamespaces
-```ts
-PubSubManager#TokenPolicy.getNamespaces(
-  options?: IPubSubManagerRequestOptions
-): Promise<string[]>
-```
-
-##### get
-```ts
-PubSubManager#TokenPolicy.get(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<{
+interface ITokenPolicy {
   writeTokenRequired: boolean | null
   readTokenRequired: boolean | null
-}>
+}
+
+class TokenPolicyClient {
+  getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
+  get(
+    namespace: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<ITokenPolicy>
+  setWriteTokenRequired(
+    namespace: string
+  , val: boolean
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+  removeWriteTokenRequired(
+    namespace: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+  setReadTokenRequired(
+    namespace: string
+  , val: boolean
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+  removeReadTokenRequired(
+    namespace: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+}
 ```
 
-##### setWriteTokenRequired
+#### TokenClient
 ```ts
-PubSubManager#TokenPolicy.setWriteTokenRequired(
-  namespace: string
-, val: boolean
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### removeWriteTokenRequired
-```ts
-PubSubManager#TokenPolicy.removeWriteTokenRequired(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### setReadTokenRequired
-```ts
-PubSubManager#TokenPolicy.setReadTokenRequired(
-  namespace: string
-, val: boolean
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### removeReadTokenRequired
-```ts
-PubSubManager#TokenPolicy.removeReadTokenRequired(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-#### Token
-##### getNamespaces
-```ts
-PubSubManager#Token.getNamespaces(
-  options?: IPubSubManagerRequestOptions
-): Promise<string[]>
-```
-
-##### getTokens
-```ts
-PubSubManager#Token.getTokens(
-  namespace: string
-, options?: IPubSubManagerRequestOptions
-): Promise<Array<{
+interface ITokenInfo {
   token: string
   write: boolean
   read: boolean
-}>>
-```
+}
 
-##### addWriteToken
-```ts
-PubSubManager#Token.addWriteToken(
-  namespace: string
-, token: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### removeWriteToken
-```ts
-PubSubManager#Token.removeWriteToken(
-  namespace: string
-, token: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### addReadToken
-```ts
-PubSubManager#Token.addReadToken(
-  namespace: string
-, token: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
-```
-
-##### removeReadToken
-```ts
-PubSubManager#Token.removeReadToken(
-  namespace: string
-, token: string
-, options?: IPubSubManagerRequestOptions
-): Promise<void>
+class TokenClient {
+  getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
+  getTokens(
+    namespace: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<ITokenInfo[]>
+  addWriteToken(
+    namespace: string
+  , token: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+  removeWriteToken(
+    namespace: string
+  , token: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+  addReadToken(
+    namespace: string
+  , token: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+  removeReadToken(
+    namespace: string
+  , token: string
+  , options: IPubSubManagerRequestOptions = {}
+  ): Promise<void>
+}
 ```
