@@ -1,23 +1,22 @@
 import { fetch } from 'extra-fetch'
 import { get, put, del } from 'extra-request'
-import { pathname } from 'extra-request/transformers/index.js'
+import { pathname, json } from 'extra-request/transformers/index.js'
 import { ok, toJSON } from 'extra-response'
-import { IPubSubManagerRequestOptions, PubSubManagerBase } from './utils'
+import { IPubSubManagerRequestOptions, Base } from './base'
 
-interface ITokenInfo {
-  token: string
-  write: boolean
-  read: boolean
+interface ITokenPolicy {
+  writeTokenRequired: boolean | null
+  readTokenRequired: boolean | null
 }
 
-export class TokenClient extends PubSubManagerBase {
+export class TokenPolicyManager extends Base {
   /**
    * @throws {AbortError}
    */
   async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       ...this.getCommonTransformers(options)
-    , pathname('/admin/pubsub-with-tokens')
+    , pathname('/admin/pubsub-with-token-policies')
     )
 
     return await fetch(req)
@@ -28,31 +27,32 @@ export class TokenClient extends PubSubManagerBase {
   /**
    * @throws {AbortError}
    */
-  async getTokens(
+  async get(
     namespace: string
   , options: IPubSubManagerRequestOptions = {}
-  ): Promise<ITokenInfo[]> {
+  ): Promise<ITokenPolicy> {
     const req = get(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies`)
     )
 
     return await fetch(req)
       .then(ok)
-      .then(toJSON) as ITokenInfo[]
+      .then(toJSON) as ITokenPolicy
   }
 
   /**
    * @throws {AbortError}
    */
-  async addWriteToken(
+  async setWriteTokenRequired(
     namespace: string
-  , token: string
+  , val: boolean
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = put(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/write`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
+    , json(val)
     )
 
     await fetch(req).then(ok)
@@ -61,14 +61,13 @@ export class TokenClient extends PubSubManagerBase {
   /**
    * @throws {AbortError}
    */
-  async removeWriteToken(
+  async removeWriteTokenRequired(
     namespace: string
-  , token: string
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = del(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/write`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
     )
 
     await fetch(req).then(ok)
@@ -77,14 +76,15 @@ export class TokenClient extends PubSubManagerBase {
   /**
    * @throws {AbortError}
    */
-  async addReadToken(
+  async setReadTokenRequired(
     namespace: string
-  , token: string
+  , val: boolean
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = put(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/read`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
+    , json(val)
     )
 
     await fetch(req).then(ok)
@@ -93,14 +93,13 @@ export class TokenClient extends PubSubManagerBase {
   /**
    * @throws {AbortError}
    */
-  async removeReadToken(
+  async removeReadTokenRequired(
     namespace: string
-  , token: string
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = del(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/read`)
+    , pathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
     )
 
     await fetch(req).then(ok)

@@ -68,6 +68,12 @@ class HeartbeatTimeoutError extends CustomError {}
 
 ### PubSubManager
 ```ts
+interface IPubSubManagerRequestOptions {
+  signal?: AbortSignal
+  keepalive?: boolean
+  timeout?: number | false
+}
+
 interface IPubSubManagerOptions {
   server: string
   adminPassword: string
@@ -78,17 +84,17 @@ interface IPubSubManagerOptions {
 class PubSubManager {
   constructor(options: IPubSubManagerOptions)
 
-  JsonSchema: JsonSchemaClient
-  Blacklist: BlacklistClient
-  Whitelist: WhitelistClient
-  TokenPolicy: TokenPolicyClient
-  Token: TokenClient
+  JsonSchema: JsonSchemaManager
+  Blacklist: BlacklistManager
+  Whitelist: WhitelistManager
+  TokenPolicy: TokenPolicyManager
+  Token: TokenManager
 }
 ```
 
-#### JsonSchemaClient
+#### JsonSchemaManager
 ```ts
-class JsonSchemaClient {
+class JsonSchemaManager {
   getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
   get(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<unknown>
   set(
@@ -100,18 +106,18 @@ class JsonSchemaClient {
 }
 ```
 
-#### BlacklistClient
+#### BlacklistManager
 ```ts
-class BlacklistClient {
+class BlacklistManager {
   getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
   add(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void>
   remove(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void>
 }
 ```
 
-#### WhitelistClient
+#### WhitelistManager
 ```ts
-class WhitelistClient {
+class WhitelistManager {
   getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
   add(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void>
   remove(
@@ -121,14 +127,14 @@ class WhitelistClient {
 }
 ```
 
-#### TokenPolicyClient
+#### TokenPolicyManager
 ```ts
 interface ITokenPolicy {
   writeTokenRequired: boolean | null
   readTokenRequired: boolean | null
 }
 
-class TokenPolicyClient {
+class TokenPolicyManager {
   getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
   get(
     namespace: string
@@ -155,7 +161,7 @@ class TokenPolicyClient {
 }
 ```
 
-#### TokenClient
+#### TokenManager
 ```ts
 interface ITokenInfo {
   token: string
@@ -163,7 +169,7 @@ interface ITokenInfo {
   read: boolean
 }
 
-class TokenClient {
+class TokenManager {
   getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]>
   getTokens(
     namespace: string

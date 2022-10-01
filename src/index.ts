@@ -1,4 +1,4 @@
-export * from './pubsub-client'
-export * from './pubsub-manager'
+export * from './client'
+export * from './manager'
 export { HTTPError } from 'extra-response'
 export { AbortError } from 'extra-fetch'

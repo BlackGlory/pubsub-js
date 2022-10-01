@@ -1,5 +1,5 @@
 import { server } from './publish.mock'
-import { PubSubClient } from '@src/pubsub-client'
+import { PubSubClient } from '@src/client'
 import { TOKEN } from '@test/utils'
 import '@blackglory/jest-matchers'
 

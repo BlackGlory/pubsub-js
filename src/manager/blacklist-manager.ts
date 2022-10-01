@@ -2,16 +2,16 @@ import { fetch } from 'extra-fetch'
 import { get, put, del } from 'extra-request'
 import { pathname } from 'extra-request/transformers/index.js'
 import { ok, toJSON } from 'extra-response'
-import { IPubSubManagerRequestOptions, PubSubManagerBase } from './utils'
+import { IPubSubManagerRequestOptions, Base } from './base'
 
-export class WhitelistClient extends PubSubManagerBase {
+export class BlacklistManager extends Base {
   /**
    * @throws {AbortError}
    */
   async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       ...this.getCommonTransformers(options)
-    , pathname('/admin/whitelist')
+    , pathname('/admin/blacklist')
     )
 
     return await fetch(req)
@@ -25,7 +25,7 @@ export class WhitelistClient extends PubSubManagerBase {
   async add(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = put(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/whitelist/${namespace}`)
+    , pathname(`/admin/blacklist/${namespace}`)
     )
 
     await fetch(req).then(ok)
@@ -34,13 +34,10 @@ export class WhitelistClient extends PubSubManagerBase {
   /**
    * @throws {AbortError}
    */
-  async remove(
-    namespace: string
-  , options: IPubSubManagerRequestOptions = {}
-  ): Promise<void> {
+  async remove(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void> {
     const req = del(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/whitelist/${namespace}`)
+    , pathname(`/admin/blacklist/${namespace}`)
     )
 
     await fetch(req).then(ok)

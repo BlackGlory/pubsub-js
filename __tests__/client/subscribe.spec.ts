@@ -1,4 +1,4 @@
-import { PubSubClient } from '@src/pubsub-client'
+import { PubSubClient } from '@src/client'
 import { Observable } from 'rxjs'
 import { TOKEN } from '@test/utils'
 import './subscribe.mock'
