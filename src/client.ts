@@ -11,8 +11,6 @@ import { raceAbortSignals, timeoutSignal } from 'extra-abort'
 import { Falsy } from 'justypes'
 import { expectedVersion } from './utils'
 
-export { HTTPClientError } from '@blackglory/http-status'
-
 export interface IPubSubClientOptions {
   server: string
   token?: string
