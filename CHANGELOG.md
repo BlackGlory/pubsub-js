@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/BlackGlory/pubsub-js/compare/v3.2.3...v4.0.0) (2022-10-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* Removed `HTTPClientError`, `HTTPError`, `AbortError`
+
+* remove `HTTPClientError`, `HTTPError`, `AbortError` ([bc246be](https://github.com/BlackGlory/pubsub-js/commit/bc246bea13e06041ddb6261fc2f7b27291632e4d))
+
 ### [3.2.3](https://github.com/BlackGlory/pubsub-js/compare/v3.2.2...v3.2.3) (2022-09-30)
 
 
