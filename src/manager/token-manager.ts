@@ -1,6 +1,6 @@
 import { fetch } from 'extra-fetch'
 import { get, put, del } from 'extra-request'
-import { pathname } from 'extra-request/transformers/index.js'
+import { appendPathname } from 'extra-request/transformers/index.js'
 import { ok, toJSON } from 'extra-response'
 import { IPubSubManagerRequestOptions, Base } from './base'
 
@@ -17,7 +17,7 @@ export class TokenManager extends Base {
   async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       ...this.getCommonTransformers(options)
-    , pathname('/admin/pubsub-with-tokens')
+    , appendPathname('/admin/pubsub-with-tokens')
     )
 
     return await fetch(req)
@@ -34,7 +34,7 @@ export class TokenManager extends Base {
   ): Promise<ITokenInfo[]> {
     const req = get(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens`)
+    , appendPathname(`/admin/pubsub/${namespace}/tokens`)
     )
 
     return await fetch(req)
@@ -52,7 +52,7 @@ export class TokenManager extends Base {
   ): Promise<void> {
     const req = put(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/write`)
+    , appendPathname(`/admin/pubsub/${namespace}/tokens/${token}/write`)
     )
 
     await fetch(req).then(ok)
@@ -68,7 +68,7 @@ export class TokenManager extends Base {
   ): Promise<void> {
     const req = del(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/write`)
+    , appendPathname(`/admin/pubsub/${namespace}/tokens/${token}/write`)
     )
 
     await fetch(req).then(ok)
@@ -84,7 +84,7 @@ export class TokenManager extends Base {
   ): Promise<void> {
     const req = put(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/read`)
+    , appendPathname(`/admin/pubsub/${namespace}/tokens/${token}/read`)
     )
 
     await fetch(req).then(ok)
@@ -100,7 +100,7 @@ export class TokenManager extends Base {
   ): Promise<void> {
     const req = del(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/tokens/${token}/read`)
+    , appendPathname(`/admin/pubsub/${namespace}/tokens/${token}/read`)
     )
 
     await fetch(req).then(ok)

@@ -1,6 +1,6 @@
 import { fetch } from 'extra-fetch'
 import { get, put, del } from 'extra-request'
-import { pathname, json } from 'extra-request/transformers/index.js'
+import { appendPathname, json } from 'extra-request/transformers/index.js'
 import { ok, toJSON } from 'extra-response'
 import { IPubSubManagerRequestOptions, Base } from './base'
 
@@ -16,7 +16,7 @@ export class TokenPolicyManager extends Base {
   async getNamespaces(options: IPubSubManagerRequestOptions = {}): Promise<string[]> {
     const req = get(
       ...this.getCommonTransformers(options)
-    , pathname('/admin/pubsub-with-token-policies')
+    , appendPathname('/admin/pubsub-with-token-policies')
     )
 
     return await fetch(req)
@@ -33,7 +33,7 @@ export class TokenPolicyManager extends Base {
   ): Promise<ITokenPolicy> {
     const req = get(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/token-policies`)
+    , appendPathname(`/admin/pubsub/${namespace}/token-policies`)
     )
 
     return await fetch(req)
@@ -51,7 +51,7 @@ export class TokenPolicyManager extends Base {
   ): Promise<void> {
     const req = put(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
+    , appendPathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
     , json(val)
     )
 
@@ -67,7 +67,7 @@ export class TokenPolicyManager extends Base {
   ): Promise<void> {
     const req = del(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
+    , appendPathname(`/admin/pubsub/${namespace}/token-policies/write-token-required`)
     )
 
     await fetch(req).then(ok)
@@ -83,7 +83,7 @@ export class TokenPolicyManager extends Base {
   ): Promise<void> {
     const req = put(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
+    , appendPathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
     , json(val)
     )
 
@@ -99,7 +99,7 @@ export class TokenPolicyManager extends Base {
   ): Promise<void> {
     const req = del(
       ...this.getCommonTransformers(options)
-    , pathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
+    , appendPathname(`/admin/pubsub/${namespace}/token-policies/read-token-required`)
     )
 
     await fetch(req).then(ok)

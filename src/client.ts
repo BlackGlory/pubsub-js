@@ -1,6 +1,6 @@
 import { fetch, EventSource } from 'extra-fetch'
 import { post, IHTTPOptionsTransformer } from 'extra-request'
-import { url, pathname, text, searchParams, keepalive, signal, basicAuth, header }
+import { url, appendPathname, text, searchParams, keepalive, signal, basicAuth, header }
   from 'extra-request/transformers/index.js'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -74,7 +74,7 @@ export class PubSubClient {
   ): Promise<void> {
     const req = post(
       ...this.getCommonTransformers(options)
-    , pathname(`pubsub/${namespace}`)
+    , appendPathname(`pubsub/${namespace}`)
     , text(val)
     )
 
