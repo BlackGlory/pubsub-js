@@ -1,7 +1,6 @@
 import { server } from './publish.mock'
 import { PubSubClient } from '@src/client'
 import { TOKEN } from '@test/utils'
-import '@blackglory/jest-matchers'
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 beforeEach(() => server.resetHandlers())
@@ -19,11 +18,9 @@ describe('PubSubClient', () => {
     const namespace = 'namespace'
     const val = 'null'
 
-    const result = client.publish(namespace, val)
-    const proResult = await result
+    const result = await client.publish(namespace, val)
 
-    expect(result).toBePromise()
-    expect(proResult).toBeUndefined()
+    expect(result).toBeUndefined()
   })
 
   test(`
@@ -37,11 +34,9 @@ describe('PubSubClient', () => {
     const namespace = 'namespace'
     const val = null
 
-    const result = client.publishJSON(namespace, val)
-    const proResult = await result
+    const result = await client.publishJSON(namespace, val)
 
-    expect(result).toBePromise()
-    expect(proResult).toBeUndefined()
+    expect(result).toBeUndefined()
   })
 })
 

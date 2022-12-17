@@ -1,5 +1,5 @@
 import { fetch } from 'extra-fetch'
-import { Json } from 'justypes'
+import { Json } from '@blackglory/prelude'
 import { get, put, del } from 'extra-request'
 import { appendPathname, json } from 'extra-request/transformers/index.js'
 import { ok, toJSON } from 'extra-response'

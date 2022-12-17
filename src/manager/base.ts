@@ -2,7 +2,7 @@ import { IHTTPOptionsTransformer } from 'extra-request'
 import { url, signal, keepalive, bearerAuth, header } from 'extra-request/transformers/index.js'
 import { timeoutSignal, raceAbortSignals } from 'extra-abort'
 import { IPubSubManagerOptions } from './index'
-import { Falsy } from 'justypes'
+import { Falsy } from '@blackglory/prelude'
 import { expectedVersion } from '@src/utils'
 
 export interface IPubSubManagerRequestOptions {

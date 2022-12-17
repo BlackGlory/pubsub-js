@@ -8,7 +8,7 @@ import { ok } from 'extra-response'
 import { assert, CustomError } from '@blackglory/errors'
 import { setTimeout } from 'extra-timers'
 import { raceAbortSignals, timeoutSignal } from 'extra-abort'
-import { Falsy } from 'justypes'
+import { Falsy } from '@blackglory/prelude'
 import { expectedVersion } from './utils'
 
 export interface IPubSubClientOptions {

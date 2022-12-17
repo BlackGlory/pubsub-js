@@ -1,7 +1,6 @@
 import { server } from './token-manager.mock'
 import { TokenManager } from '@manager/token-manager'
 import { ADMIN_PASSWORD } from '@test/utils'
-import '@blackglory/jest-matchers'
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 beforeEach(() => server.resetHandlers())
@@ -11,11 +10,9 @@ describe('TokenManager', () => {
   test('getNamespaces(): Promise<string[]>', async () => {
     const client = createManager()
 
-    const result = client.getNamespaces()
-    const proResult = await result
+    const result = await client.getNamespaces()
 
-    expect(result).toBePromise()
-    expect(proResult).toStrictEqual(['namespace'])
+    expect(result).toStrictEqual(['namespace'])
   })
 
   test(`
@@ -26,11 +23,9 @@ describe('TokenManager', () => {
     const client = createManager()
     const namespace = 'namespace'
 
-    const result = client.getTokens(namespace)
-    const proResult = await result
+    const result = await client.getTokens(namespace)
 
-    expect(result).toBePromise()
-    expect(proResult).toStrictEqual([{
+    expect(result).toStrictEqual([{
       token: 'token'
     , write: true
     , read: false
@@ -42,11 +37,9 @@ describe('TokenManager', () => {
     const namespace = 'namespace'
     const token = 'token'
 
-    const result = client.addWriteToken(namespace, token)
-    const proResult = await result
+    const result = await client.addWriteToken(namespace, token)
 
-    expect(result).toBePromise()
-    expect(proResult).toBeUndefined()
+    expect(result).toBeUndefined()
   })
 
   test('removeWriteToken(namespace: string, token: string): Promise<void>', async () => {
@@ -54,11 +47,9 @@ describe('TokenManager', () => {
     const namespace = 'namespace'
     const token = 'token'
 
-    const result = client.removeReadToken(namespace, token)
-    const proResult = await result
+    const result = await client.removeReadToken(namespace, token)
 
-    expect(result).toBePromise()
-    expect(proResult).toBeUndefined()
+    expect(result).toBeUndefined()
   })
 
   test('addReadToken(namespace: string, token: string): Promise<void>', async () => {
@@ -66,11 +57,9 @@ describe('TokenManager', () => {
     const namespace = 'namespace'
     const token = 'token'
 
-    const result = client.addReadToken(namespace, token)
-    const proResult = await result
+    const result = await client.addReadToken(namespace, token)
 
-    expect(result).toBePromise()
-    expect(proResult).toBeUndefined()
+    expect(result).toBeUndefined()
   })
 
   test('removeReadToken(namespace: string, token: string): Promise<void>', async () => {
@@ -78,11 +67,9 @@ describe('TokenManager', () => {
     const namespace = 'namespace'
     const token = 'token'
 
-    const result = client.removeWriteToken(namespace, token)
-    const proResult = await result
+    const result = await client.removeWriteToken(namespace, token)
 
-    expect(result).toBePromise()
-    expect(proResult).toBeUndefined()
+    expect(result).toBeUndefined()
   })
 })
 
