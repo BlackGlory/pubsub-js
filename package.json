@@ -17,8 +17,7 @@
     "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand",
     "test:coverage": "jest --coverage --config jest.config.js",
     "prepublishOnly": "run-s prepare clean build",
-    "clean": "run-p clean:*",
-    "clean:build": "rimraf lib",
+    "clean": "rimraf lib",
     "build": "tsc --project tsconfig.build.json --module commonjs --target es2018 --outDir lib",
     "release": "standard-version"
   },
