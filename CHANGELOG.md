@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.0.0](https://github.com/BlackGlory/pubsub-js/compare/v4.0.2...v5.0.0) (2023-01-30)
+
+
+### ⚠ BREAKING CHANGES
+
+* - CommonJS => ESM.
+- The minimal version of Node.js is 16.
+- It requires PubSub^2.0.0.
+
+### Features
+
+* upgrade ([34fdeba](https://github.com/BlackGlory/pubsub-js/commit/34fdebaf9c3be5aef120cbbc1c28f996b9667dae))
+
 ### [4.0.2](https://github.com/BlackGlory/pubsub-js/compare/v4.0.1...v4.0.2) (2022-10-31)
 
 ### [4.0.1](https://github.com/BlackGlory/pubsub-js/compare/v4.0.0...v4.0.1) (2022-10-23)
