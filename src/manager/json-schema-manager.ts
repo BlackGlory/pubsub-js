@@ -1,9 +1,9 @@
 import { fetch } from 'extra-fetch'
-import { Json } from '@blackglory/prelude'
+import { JSONValue } from '@blackglory/prelude'
 import { get, put, del } from 'extra-request'
-import { appendPathname, json } from 'extra-request/transformers/index.js'
+import { appendPathname, json } from 'extra-request/transformers'
 import { ok, toJSON } from 'extra-response'
-import { IPubSubManagerRequestOptions, Base } from './base'
+import { IPubSubManagerRequestOptions, Base } from './base.js'
 
 export class JsonSchemaManager extends Base {
   /**
@@ -39,7 +39,7 @@ export class JsonSchemaManager extends Base {
    */
   async set(
     namespace: string
-  , schema: Json
+  , schema: JSONValue
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void> {
     const req = put(

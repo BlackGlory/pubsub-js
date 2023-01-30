@@ -99,7 +99,7 @@ class JsonSchemaManager {
   get(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<unknown>
   set(
     namespace: string
-  , schema: Json
+  , schema: JSONValue
   , options: IPubSubManagerRequestOptions = {}
   ): Promise<void>
   remove(namespace: string, options: IPubSubManagerRequestOptions = {}): Promise<void>

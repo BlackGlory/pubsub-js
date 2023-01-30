@@ -1,9 +1,17 @@
-import { PubSubClient } from '@src/client'
+import { PubSubClient } from '@src/client.js'
 import { Observable } from 'rxjs'
-import { TOKEN } from '@test/utils'
-import './subscribe.mock'
+import { TOKEN } from '@test/utils.js'
+import './subscribe.mock.js'
 
-jest.mock('eventsource', () => require('mocksse').EventSource)
+vi.mock('extra-fetch', () => {
+  const actual = vi.importActual('extra-fetch')
+  const EventSource = require('mocksse').EventSource
+  return {
+    ...actual
+  , EventSource
+  }
+})
+
 
 describe('PubSubClient', () => {
   test(`
@@ -11,16 +19,14 @@ describe('PubSubClient', () => {
       namespace: string
     , options?: { token?: string }
     ): Observable<string>
-  `, done => {
+  `, async () => {
     const namespace = 'namespace'
     const client = createClient()
 
     const observable = client.subscribe(namespace)
-    observable.subscribe(data => {
-      expect(data).toBe('null')
-      done()
-    })
+    const data = await new Promise<string>(resolve => observable.subscribe(resolve))
 
+    expect(data).toBe('null')
     expect(observable).toBeInstanceOf(Observable)
   })
 
@@ -29,16 +35,14 @@ describe('PubSubClient', () => {
       namespace: string
     , options?: { token?: string }
     ): Observable<Json>
-  `, done => {
+  `, async () => {
     const namespace = 'namespace'
     const client = createClient()
 
     const observable = client.subscribeJSON(namespace)
-    observable.subscribe(data => {
-      expect(data).toBe(null)
-      done()
-    })
+    const data = await new Promise<unknown>(resolve => observable.subscribe(resolve))
 
+    expect(data).toBe(null)
     expect(observable).toBeInstanceOf(Observable)
   })
 })

@@ -1,6 +1,6 @@
-import { server } from './publish.mock'
-import { PubSubClient } from '@src/client'
-import { TOKEN } from '@test/utils'
+import { server } from './publish.mock.js'
+import { PubSubClient } from '@src/client.js'
+import { TOKEN } from '@test/utils.js'
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 beforeEach(() => server.resetHandlers())

@@ -1,7 +1,7 @@
 import { fetch, EventSource } from 'extra-fetch'
-import { post, IHTTPOptionsTransformer } from 'extra-request'
+import { post, IRequestOptionsTransformer } from 'extra-request'
 import { url, appendPathname, text, searchParams, keepalive, signal, basicAuth, header }
-  from 'extra-request/transformers/index.js'
+  from 'extra-request/transformers'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ok } from 'extra-response'
@@ -9,7 +9,7 @@ import { assert, CustomError } from '@blackglory/errors'
 import { setTimeout } from 'extra-timers'
 import { raceAbortSignals, timeoutSignal } from 'extra-abort'
 import { Falsy } from '@blackglory/prelude'
-import { expectedVersion } from './utils'
+import { expectedVersion } from './utils.js'
 
 export interface IPubSubClientOptions {
   server: string
@@ -44,7 +44,7 @@ export class PubSubClient {
 
   private getCommonTransformers(
     options: IPubSubClientRequestOptions
-  ): Array<IHTTPOptionsTransformer | Falsy> {
+  ): Array<IRequestOptionsTransformer | Falsy> {
     const token = options.token ?? this.options.token
     const auth = this.options.basicAuth
 
@@ -113,7 +113,10 @@ export class PubSubClient {
 
       let cancelHeartbeatTimeout: (() => void) | null = null
       if (options.heartbeat ?? this.options.heartbeat) {
-        const timeout = options.heartbeat.timeout ?? this.options.heartbeat.timeout
+        const timeout = (
+          options.heartbeat?.timeout ??
+          this.options.heartbeat?.timeout
+        )!
         assert(Number.isInteger(timeout), 'timeout must be an integer')
         assert(timeout > 0, 'timeout must greater than zero')
 

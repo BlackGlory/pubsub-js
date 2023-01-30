@@ -1,7 +1,8 @@
-import { server } from './json-schema-manager.mock'
-import { JsonSchemaManager } from '@manager/json-schema-manager'
-import { ADMIN_PASSWORD } from '@test/utils'
-import { assert, isJson } from '@blackglory/prelude'
+import { server } from './json-schema-manager.mock.js'
+import { JsonSchemaManager } from '@manager/json-schema-manager.js'
+import { ADMIN_PASSWORD } from '@test/utils.js'
+import { assert, isJSONValue } from '@blackglory/prelude'
+import '@test/polyfill.js'
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 beforeEach(() => server.resetHandlers())
@@ -22,7 +23,7 @@ describe('JsonSchemaManager', () => {
 
     const result = await client.get(namespace)
 
-    assert(isJson(result), 'result is not JSON')
+    assert(isJSONValue(result), 'result is not JSON')
   })
 
   test('set(namespace: string, schema: Json): Promise<void>', async () => {

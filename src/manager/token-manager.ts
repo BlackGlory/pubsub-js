@@ -1,8 +1,8 @@
 import { fetch } from 'extra-fetch'
 import { get, put, del } from 'extra-request'
-import { appendPathname } from 'extra-request/transformers/index.js'
+import { appendPathname } from 'extra-request/transformers'
 import { ok, toJSON } from 'extra-response'
-import { IPubSubManagerRequestOptions, Base } from './base'
+import { IPubSubManagerRequestOptions, Base } from './base.js'
 
 interface ITokenInfo {
   token: string
