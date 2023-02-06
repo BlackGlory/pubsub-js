@@ -1,11 +1,11 @@
 // @ts-ignore
 import { MockEvent } from 'mocksse'
-import { TOKEN } from '@test/utils.js'
 
 const namespace = 'namespace'
+const channel = 'channel'
 new MockEvent({
-  url: `http://localhost/pubsub/${namespace}?token=${TOKEN}`
+  url: `http://localhost/namespaces/${namespace}/channels/${channel}`
 , responses: [
-    { type: 'message', data: 'null' }
+    { type: 'message', data: 'data' }
   ]
 })

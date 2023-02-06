@@ -1,9 +1,7 @@
 import { fetch, EventSource } from 'extra-fetch'
 import { post, IRequestOptionsTransformer } from 'extra-request'
-import { url, appendPathname, text, searchParams, keepalive, signal, basicAuth, header }
-  from 'extra-request/transformers'
+import { url, appendPathname, text, keepalive, signal, basicAuth, header } from 'extra-request/transformers'
 import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
 import { ok } from 'extra-response'
 import { assert, CustomError } from '@blackglory/errors'
 import { setTimeout } from 'extra-timers'
@@ -13,7 +11,6 @@ import { expectedVersion } from './utils.js'
 
 export interface IPubSubClientOptions {
   server: string
-  token?: string
   basicAuth?: {
     username: string
     password: string
@@ -25,13 +22,11 @@ export interface IPubSubClientOptions {
 
 export interface IPubSubClientRequestOptions {
   signal?: AbortSignal
-  token?: string
   keepalive?: boolean
   timeout?: number | false
 }
 
 export interface IPubSubClientObserveOptions {
-  token?: string
   heartbeat?: IHeartbeatOptions
 }
 
@@ -42,54 +37,22 @@ export interface IHeartbeatOptions {
 export class PubSubClient {
   constructor(private options: IPubSubClientOptions) {}
 
-  private getCommonTransformers(
-    options: IPubSubClientRequestOptions
-  ): Array<IRequestOptionsTransformer | Falsy> {
-    const token = options.token ?? this.options.token
-    const auth = this.options.basicAuth
-
-    return [
-      url(this.options.server)
-    , auth && basicAuth(auth.username, auth.password)
-    , token && searchParams({ token })
-    , signal(raceAbortSignals([
-        options.signal
-      , options.timeout !== false && (
-          (options.timeout && timeoutSignal(options.timeout)) ??
-          (this.options.timeout && timeoutSignal(this.options.timeout))
-        )
-      ]))
-    , (options.keepalive ?? this.options.keepalive) && keepalive()
-    , header('Accept-Version', expectedVersion)
-    ]
-  }
-
   /**
    * @throws {AbortError}
    */
   async publish(
     namespace: string
-  , val: string
+  , channel: string
+  , value: string
   , options: IPubSubClientRequestOptions = {}
   ): Promise<void> {
     const req = post(
       ...this.getCommonTransformers(options)
-    , appendPathname(`pubsub/${namespace}`)
-    , text(val)
+    , appendPathname(`/namespaces/${namespace}/channels/${channel}`)
+    , text(value)
     )
 
     await fetch(req).then(ok)
-  }
-
-  /**
-   * @throws {AbortError}
-   */
-  async publishJSON<T>(
-    namespace: string
-  , val: T
-  , options?: IPubSubClientRequestOptions
-  ): Promise<void> {
-    return await this.publish(namespace, JSON.stringify(val), options)
   }
 
   /**
@@ -97,12 +60,14 @@ export class PubSubClient {
    */
   subscribe(
     namespace: string
+  , channel: string
   , options: IPubSubClientObserveOptions = {}
   ): Observable<string> {
     return new Observable(observer => {
-      const token = options.token ?? this.options.token
-      const url = new URL(`/pubsub/${namespace}`, this.options.server)
-      if (token) url.searchParams.append('token', token)
+      const url = new URL(
+        `/namespaces/${namespace}/channels/${channel}`
+      , this.options.server
+      )
 
       const es = new EventSource(url.href)
       es.addEventListener('message', (evt: MessageEvent) => observer.next(evt.data))
@@ -146,16 +111,24 @@ export class PubSubClient {
     })
   }
 
-  /**
-   * @throws {HeartbeatTimeoutError} from Observable
-   */
-  subscribeJSON<T>(
-    namespace: string
-  , options?: IPubSubClientObserveOptions
-  ): Observable<T> {
-    return this.subscribe(namespace, options).pipe(
-      map(x => JSON.parse(x))
-    )
+  private getCommonTransformers(
+    options: IPubSubClientRequestOptions
+  ): Array<IRequestOptionsTransformer | Falsy> {
+    const auth = this.options.basicAuth
+
+    return [
+      url(this.options.server)
+    , auth && basicAuth(auth.username, auth.password)
+    , signal(raceAbortSignals([
+        options.signal
+      , options.timeout !== false && (
+          (options.timeout && timeoutSignal(options.timeout)) ??
+          (this.options.timeout && timeoutSignal(this.options.timeout))
+        )
+      ]))
+    , (options.keepalive ?? this.options.keepalive) && keepalive()
+    , header('Accept-Version', expectedVersion)
+    ]
   }
 }
 
