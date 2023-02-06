@@ -7,7 +7,7 @@ import { assert, CustomError } from '@blackglory/errors'
 import { setTimeout } from 'extra-timers'
 import { raceAbortSignals, timeoutSignal } from 'extra-abort'
 import { Falsy } from '@blackglory/prelude'
-import { expectedVersion } from './utils.js'
+import { expectedVersion } from './contract.js'
 
 export interface IPubSubClientOptions {
   server: string
