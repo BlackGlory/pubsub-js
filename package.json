@@ -32,7 +32,6 @@
     }
   },
   "devDependencies": {
-    "@blackglory/jest-resolver": "^0.3.0",
     "@commitlint/cli": "^17.4.2",
     "@commitlint/config-conventional": "^17.4.2",
     "@typescript-eslint/eslint-plugin": "^5.49.0",
