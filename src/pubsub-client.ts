@@ -58,7 +58,7 @@ export class PubSubClient {
   /**
    * @throws {HeartbeatTimeoutError} from Observable
    */
-  subscribe(
+  observe(
     namespace: string
   , channel: string
   , options: IPubSubClientObserveOptions = {}
@@ -70,13 +70,15 @@ export class PubSubClient {
       )
 
       const es = new EventSource(url.href)
-      es.addEventListener('message', (evt: MessageEvent) => observer.next(evt.data))
+      es.addEventListener('message', (evt: MessageEvent) => {
+        observer.next(evt.data)
+      })
       es.addEventListener('error', evt => {
         close()
         observer.error(evt)
       })
 
-      let cancelHeartbeatTimeout: (() => void) | null = null
+      let cancelHeartbeatTimeout: (() => void) | undefined
       if (options.heartbeat ?? this.options.heartbeat) {
         const timeout = (
           options.heartbeat?.timeout ??
@@ -92,7 +94,7 @@ export class PubSubClient {
         })
 
         function updateTimeout() {
-          if (cancelHeartbeatTimeout) cancelHeartbeatTimeout()
+          cancelHeartbeatTimeout?.()
           cancelHeartbeatTimeout = setTimeout(timeout, heartbeatTimeout)
         }
       }
@@ -100,7 +102,7 @@ export class PubSubClient {
       return close
 
       function close() {
-        if (cancelHeartbeatTimeout) cancelHeartbeatTimeout()
+        cancelHeartbeatTimeout?.()
         es.close()
       }
 

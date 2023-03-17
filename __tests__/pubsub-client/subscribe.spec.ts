@@ -18,7 +18,7 @@ describe('PubSubClient', () => {
     const channel = 'channel'
     const client = createClient()
 
-    const observable = client.subscribe(namespace, channel)
+    const observable = client.observe(namespace, channel)
     const data = await new Promise<string>(resolve => observable.subscribe(resolve))
 
     expect(data).toBe('data')
