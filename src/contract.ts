@@ -1,1 +1,1 @@
-export const expectedVersion = '^3.0.0 || ^4.0.0'
+export const expectedVersion = '^5.0.0'

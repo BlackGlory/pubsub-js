@@ -1,12 +1,12 @@
 import { fetch, EventSource } from 'extra-fetch'
 import { post, IRequestOptionsTransformer } from 'extra-request'
-import { url, appendPathname, text, keepalive, signal, basicAuth, header } from 'extra-request/transformers'
+import { url, appendPathname, json, keepalive, signal, basicAuth, header } from 'extra-request/transformers'
 import { Observable } from 'rxjs'
 import { ok } from 'extra-response'
 import { assert, CustomError } from '@blackglory/errors'
 import { setTimeout } from 'extra-timers'
 import { raceAbortSignals, timeoutSignal } from 'extra-abort'
-import { Falsy } from '@blackglory/prelude'
+import { Falsy, JSONValue } from '@blackglory/prelude'
 import { expectedVersion } from './contract.js'
 
 export interface IPubSubClientOptions {
@@ -43,13 +43,13 @@ export class PubSubClient {
   async publish(
     namespace: string
   , channel: string
-  , value: string
+  , content: JSONValue
   , options: IPubSubClientRequestOptions = {}
   ): Promise<void> {
     const req = post(
       ...this.getCommonTransformers(options)
     , appendPathname(`/namespaces/${namespace}/channels/${channel}`)
-    , text(value)
+    , json(content)
     )
 
     await fetch(req).then(ok)
@@ -71,7 +71,9 @@ export class PubSubClient {
 
       const es = new EventSource(url.href)
       es.addEventListener('message', (evt: MessageEvent) => {
-        observer.next(evt.data)
+        const payload = evt.data
+        const content = JSON.parse(payload)
+        observer.next(content)
       })
       es.addEventListener('error', evt => {
         close()

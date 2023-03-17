@@ -1,5 +1,5 @@
 import { PubSubClient } from '@src/pubsub-client.js'
-import { Observable } from 'rxjs'
+import { Observable, firstValueFrom } from 'rxjs'
 import './subscribe.mock.js'
 
 vi.mock('extra-fetch', () => {
@@ -19,9 +19,9 @@ describe('PubSubClient', () => {
     const client = createClient()
 
     const observable = client.observe(namespace, channel)
-    const data = await new Promise<string>(resolve => observable.subscribe(resolve))
+    const result = await firstValueFrom(observable)
 
-    expect(data).toBe('data')
+    expect(result).toBe('content')
     expect(observable).toBeInstanceOf(Observable)
   })
 })

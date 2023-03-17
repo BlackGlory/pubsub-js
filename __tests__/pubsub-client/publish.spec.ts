@@ -10,11 +10,9 @@ describe('PubSubClient', () => {
     const client = createClient()
     const namespace = 'namespace'
     const channel = 'channel'
-    const value = 'data'
+    const content = 'content'
 
-    const result = await client.publish(namespace, channel, value)
-
-    expect(result).toBeUndefined()
+    await client.publish(namespace, channel, content)
   })
 })
 

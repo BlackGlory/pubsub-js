@@ -34,13 +34,15 @@ interface IHeartbeatOptions {
   timeout: number
 }
 
+class HeartbeatTimeoutError extends CustomError {}
+
 class PubSubClient {
   constructor(options: IPubSubClientOptions)
 
   publish(
     namespace: string
   , channel: string
-  , value: string
+  , content: JSONValue
   , options?: IPubSubClientRequestOptions
   ): Promise<void>
 
@@ -48,8 +50,6 @@ class PubSubClient {
     namespace: string
   , channel: string
   , options?: IPubSubClientObserveOptions
-  ): Observable<string>
+  ): Observable<JSONValue>
 }
-
-class HeartbeatTimeoutError extends CustomError {}
 ```

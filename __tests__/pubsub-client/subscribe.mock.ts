@@ -6,6 +6,6 @@ const channel = 'channel'
 new MockEvent({
   url: `http://localhost/namespaces/${namespace}/channels/${channel}`
 , responses: [
-    { type: 'message', data: 'data' }
+    { type: 'message', data: JSON.stringify('content') }
   ]
 })
