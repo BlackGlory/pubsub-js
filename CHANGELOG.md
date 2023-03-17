@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [7.0.0](https://github.com/BlackGlory/pubsub-js/compare/v6.1.0...v7.0.0) (2023-03-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* It requires PubSub^5.0.0
+
+### Features
+
+* upgrade to PubSub^5.0.0 ([79070ef](https://github.com/BlackGlory/pubsub-js/commit/79070ef6d721efe6ed804a2f5247bde2e77b5bcf))
+
 ## [6.1.0](https://github.com/BlackGlory/pubsub-js/compare/v6.0.0...v6.1.0) (2023-03-13)
 
 
