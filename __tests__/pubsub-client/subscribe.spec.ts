@@ -1,16 +1,10 @@
+import { server } from './subscribe.mock.js'
 import { PubSubClient } from '@src/pubsub-client.js'
 import { Observable, firstValueFrom } from 'rxjs'
-import './subscribe.mock.js'
 
-vi.mock('extra-fetch', () => {
-  const actual = vi.importActual('extra-fetch')
-  const EventSource = require('mocksse').EventSource
-  return {
-    ...actual
-  , EventSource
-  }
-})
-
+beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
+beforeEach(() => server.resetHandlers())
+afterAll(() => server.close())
 
 describe('PubSubClient', () => {
   test('subscribe', async () => {
