@@ -1,4 +1,4 @@
-import { server } from './subscribe.mock.js'
+import { server } from './pubsub-client.mock.js'
 import { PubSubClient } from '@src/pubsub-client.js'
 import { Observable, firstValueFrom } from 'rxjs'
 
@@ -7,6 +7,15 @@ beforeEach(() => server.resetHandlers())
 afterAll(() => server.close())
 
 describe('PubSubClient', () => {
+  test('publish', async () => {
+    const client = createClient()
+    const namespace = 'namespace'
+    const channel = 'channel'
+    const content = 'content'
+
+    await client.publish(namespace, channel, content)
+  })
+
   test('subscribe', async () => {
     const namespace = 'namespace'
     const channel = 'channel'
