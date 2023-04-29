@@ -23,7 +23,10 @@ export const server = setupServer(
         ctx.status(200)
       , ctx.set('Connection', 'keep-alive')
       , ctx.set('Content-Type', 'text/event-stream')
-      , ctx.body(`data: ${JSON.stringify('content')}\n\n`)
+      , ctx.body(
+          `data: ${JSON.stringify('content')}` + '\n'
+        + '\n'
+        )
       )
     }
   )
