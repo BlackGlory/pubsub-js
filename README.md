@@ -26,15 +26,13 @@ interface IPubSubClientRequestOptions {
   timeout?: number | false
 }
 
-interface IPubSubClientObserveOptions {
+interface IPubSubClientSubscribeOptions {
   heartbeat?: IHeartbeatOptions
 }
 
 interface IHeartbeatOptions {
   timeout: number
 }
-
-class HeartbeatTimeoutError extends CustomError {}
 
 class PubSubClient {
   constructor(options: IPubSubClientOptions)
@@ -49,7 +47,7 @@ class PubSubClient {
   subscribe(
     namespace: string
   , channel: string
-  , options?: IPubSubClientObserveOptions
-  ): Observable<JSONValue>
+  , options?: IPubSubClientSubscribeOptions
+  ): AsyncIterableIterator<string>
 }
 ```

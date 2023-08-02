@@ -1,5 +1,7 @@
 import { setupServer } from 'msw/node'
 import { rest } from 'msw'
+import { stringifyEvent } from 'extra-sse'
+import { toArray, concat } from 'iterable-operator'
 
 export const server = setupServer(
   rest.post(
@@ -23,10 +25,10 @@ export const server = setupServer(
         ctx.status(200)
       , ctx.set('Connection', 'keep-alive')
       , ctx.set('Content-Type', 'text/event-stream')
-      , ctx.body(
-          `data: ${JSON.stringify('content')}` + '\n'
-        + '\n'
-        )
+      , ctx.body(toArray(concat(
+          stringifyEvent({ data: JSON.stringify('content') })
+        , stringifyEvent({ event: 'heartbeat' })
+        )).join(''))
       )
     }
   )

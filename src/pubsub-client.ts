@@ -1,13 +1,12 @@
-import { fetch, EventSource } from 'extra-fetch'
-import { post, IRequestOptionsTransformer } from 'extra-request'
+import { fetch } from 'extra-fetch'
+import { post, IRequestOptionsTransformer, get } from 'extra-request'
 import { url, appendPathname, json, keepalive, signal, basicAuth, header } from 'extra-request/transformers'
-import { Observable } from 'rxjs'
 import { ok } from 'extra-response'
-import { assert, CustomError } from '@blackglory/errors'
 import { setTimeout } from 'extra-timers'
-import { raceAbortSignals, timeoutSignal } from 'extra-abort'
-import { Falsy, JSONValue } from '@blackglory/prelude'
+import { AbortError, raceAbortSignals, timeoutSignal } from 'extra-abort'
+import { assert, Falsy, JSONValue, go, isntUndefined, pass } from '@blackglory/prelude'
 import { expectedVersion } from './contract.js'
+import { fetchEvents } from 'extra-sse'
 
 export interface IPubSubClientOptions {
   server: string
@@ -26,7 +25,7 @@ export interface IPubSubClientRequestOptions {
   timeout?: number | false
 }
 
-export interface IPubSubClientObserveOptions {
+export interface IPubSubClientSubscribeOptions {
   heartbeat?: IHeartbeatOptions
 }
 
@@ -55,64 +54,71 @@ export class PubSubClient {
     await fetch(req).then(ok)
   }
 
-  /**
-   * @throws {HeartbeatTimeoutError} from Observable
-   */
-  observe(
+  async * subscribe(
     namespace: string
   , channel: string
-  , options: IPubSubClientObserveOptions = {}
-  ): Observable<string> {
-    return new Observable(observer => {
-      const url = new URL(
-        `/namespaces/${namespace}/channels/${channel}`
-      , this.options.server
-      )
-
-      const es = new EventSource(url.href)
-      es.addEventListener('message', (evt: MessageEvent) => {
-        const payload = evt.data
-        const content = JSON.parse(payload)
-        observer.next(content)
-      })
-      es.addEventListener('error', evt => {
-        close()
-        observer.error(evt)
-      })
-
-      let cancelHeartbeatTimeout: (() => void) | undefined
-      if (options.heartbeat ?? this.options.heartbeat) {
-        const timeout = (
-          options.heartbeat?.timeout ??
-          this.options.heartbeat?.timeout
-        )!
-        assert(Number.isInteger(timeout), 'timeout must be an integer')
-        assert(timeout > 0, 'timeout must greater than zero')
-
-        es.addEventListener('open', () => {
-          updateTimeout()
-
-          es.addEventListener('heartbeat', updateTimeout)
-        })
-
-        function updateTimeout() {
-          cancelHeartbeatTimeout?.()
-          cancelHeartbeatTimeout = setTimeout(timeout, heartbeatTimeout)
-        }
+  , options: IPubSubClientSubscribeOptions = {}
+  ): AsyncIterableIterator<string> {
+    const heartbeatTimeout = go(() => {
+      const timeout = options.heartbeat?.timeout ?? this.options.heartbeat?.timeout
+      if (isntUndefined(timeout)) {
+        assert(Number.isInteger(timeout), 'heartbeat.timeout must be an integer')
+        assert(timeout > 0, 'heartbeat.timeout must greater than zero')
       }
 
-      return close
-
-      function close() {
-        cancelHeartbeatTimeout?.()
-        es.close()
-      }
-
-      function heartbeatTimeout() {
-        close()
-        observer.error(new HeartbeatTimeoutError())
-      }
+      return timeout
     })
+    let cancelHeartbeatTimeout: (() => void) | undefined
+
+    while (true) {
+      try {
+        const controller = new AbortController()
+        for await (
+          const { event = 'message', data } of fetchEvents(
+            () => get(
+              url(this.options.server)
+            , appendPathname(`/namespaces/${namespace}/channels/${channel}`)
+            , signal(controller.signal)
+            )
+          , {
+              onOpen: () => {
+                if (isntUndefined(heartbeatTimeout)) {
+                  resetHeartbeatTimeout(controller, heartbeatTimeout)
+                }
+              }
+            }
+          )
+        ) {
+          switch (event) {
+            case 'message': {
+              if (isntUndefined(data)) {
+                yield JSON.parse(data)
+              }
+              break
+            }
+            case 'heartbeat': {
+              if (isntUndefined(heartbeatTimeout)) {
+                resetHeartbeatTimeout(controller, heartbeatTimeout)
+              }
+              break
+            }
+          }
+        }
+      } catch (e) {
+        if (e instanceof AbortError) {
+          pass()
+        } else {
+          throw e
+        }
+      } finally {
+        cancelHeartbeatTimeout?.()
+      }
+    }
+
+    function resetHeartbeatTimeout(controller: AbortController, timeout: number): void {
+      cancelHeartbeatTimeout?.()
+      cancelHeartbeatTimeout = setTimeout(timeout, () => controller.abort())
+    }
   }
 
   private getCommonTransformers(
@@ -135,5 +141,3 @@ export class PubSubClient {
     ]
   }
 }
-
-export class HeartbeatTimeoutError extends CustomError {}

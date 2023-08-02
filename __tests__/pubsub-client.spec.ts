@@ -1,6 +1,7 @@
 import { server } from './pubsub-client.mock.js'
 import { PubSubClient } from '@src/pubsub-client.js'
-import { Observable, firstValueFrom } from 'rxjs'
+import { delay } from 'extra-promise'
+import { firstAsync } from 'iterable-operator'
 
 beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
 beforeEach(() => server.resetHandlers())
@@ -16,16 +17,57 @@ describe('PubSubClient', () => {
     await client.publish(namespace, channel, content)
   })
 
-  test('subscribe', async () => {
-    const namespace = 'namespace'
-    const channel = 'channel'
-    const client = createClient()
+  describe('subscribe', () => {
+    test('generic', async () => {
+      const namespace = 'namespace'
+      const channel = 'channel'
+      const client = createClient()
 
-    const observable = client.observe(namespace, channel)
-    const result = await firstValueFrom(observable)
+      const result = await firstAsync(client.subscribe(namespace, channel))
 
-    expect(result).toBe('content')
-    expect(observable).toBeInstanceOf(Observable)
+      expect(result).toBe('content')
+    })
+
+    // 此处的心跳检测测试通过客户端超时来模拟服务器超时, 这是因为msw不支持模拟服务器超时.
+    describe('heartbeat', () => {
+      test('timeout', async () => {
+        const namespace = 'namespace'
+        const channel = 'channel'
+        const client = createClient()
+        const iter = client.subscribe(namespace, channel, { heartbeat: { timeout: 500 }})
+
+        const results: string[] = []
+        for await (const message of iter) {
+          results.push(message)
+          if (results.length === 2) break
+          await delay(600)
+        }
+
+        expect(results).toStrictEqual([
+          'content'
+        , 'content'
+        ])
+      })
+
+      test('no timeout', async () => {
+        const namespace = 'namespace'
+        const channel = 'channel'
+        const client = createClient()
+        const iter = client.subscribe(namespace, channel, { heartbeat: { timeout: 500 }})
+
+        const results: string[] = []
+        for await (const message of iter) {
+          results.push(message)
+          if (results.length === 2) break
+          await delay(400)
+        }
+
+        expect(results).toStrictEqual([
+          'content'
+        , 'content'
+        ])
+      })
+    })
   })
 })
 
