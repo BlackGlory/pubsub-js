@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.0.0](https://github.com/BlackGlory/pubsub-js/compare/v7.0.1...v8.0.0) (2023-08-02)
+
+
+### ⚠ BREAKING CHANGES
+
+* - Changed the signature of `PubSubClient#subscribe`
+- Removed `HeartbeatTimeoutError`
+
+* use extra-sse ([2dbcf45](https://github.com/BlackGlory/pubsub-js/commit/2dbcf45f931a6c62040f914fdb5f814ae1801508))
+
 ### [7.0.1](https://github.com/BlackGlory/pubsub-js/compare/v7.0.0...v7.0.1) (2023-06-11)
 
 
