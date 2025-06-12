@@ -25,7 +25,7 @@ export interface IPubSubClientRequestOptions {
   timeout?: number | false
 }
 
-export interface IPubSubClientSubscribeOptions {
+export interface IPubSubClientSubscribeOptions extends IPubSubClientRequestOptions {
   heartbeat?: IHeartbeatOptions
 }
 
@@ -76,9 +76,14 @@ export class PubSubClient {
         for await (
           const { event = 'message', data } of fetchEvents(
             () => get(
-              url(this.options.server)
+              ...this.getCommonTransformers({
+                ...options
+              , signal: raceAbortSignals([
+                  options.signal
+                , controller.signal
+                ])
+              })
             , appendPathname(`/namespaces/${namespace}/channels/${channel}`)
-            , signal(controller.signal)
             )
           , {
               onOpen: () => {

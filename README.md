@@ -26,7 +26,7 @@ interface IPubSubClientRequestOptions {
   timeout?: number | false
 }
 
-interface IPubSubClientSubscribeOptions {
+export interface IPubSubClientSubscribeOptions extends IPubSubClientRequestOptions {
   heartbeat?: IHeartbeatOptions
 }
 
