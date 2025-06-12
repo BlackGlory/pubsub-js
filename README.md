@@ -48,6 +48,6 @@ class PubSubClient {
     namespace: string
   , channel: string
   , options?: IPubSubClientSubscribeOptions
-  ): AsyncIterableIterator<string>
+  ): AsyncIterableIterator<JSONValue>
 }
 ```

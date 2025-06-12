@@ -58,7 +58,7 @@ export class PubSubClient {
     namespace: string
   , channel: string
   , options: IPubSubClientSubscribeOptions = {}
-  ): AsyncIterableIterator<string> {
+  ): AsyncIterableIterator<JSONValue> {
     const heartbeatTimeout = go(() => {
       const timeout = options.heartbeat?.timeout ?? this.options.heartbeat?.timeout
       if (isntUndefined(timeout)) {

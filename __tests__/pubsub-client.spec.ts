@@ -1,3 +1,4 @@
+import { JSONValue } from '@blackglory/prelude'
 import { server } from './pubsub-client.mock.js'
 import { PubSubClient } from '@src/pubsub-client.js'
 import { delay } from 'extra-promise'
@@ -36,7 +37,7 @@ describe('PubSubClient', () => {
         const client = createClient()
         const iter = client.subscribe(namespace, channel, { heartbeat: { timeout: 500 }})
 
-        const results: string[] = []
+        const results: JSONValue[] = []
         for await (const message of iter) {
           results.push(message)
           if (results.length === 2) break
@@ -55,7 +56,7 @@ describe('PubSubClient', () => {
         const client = createClient()
         const iter = client.subscribe(namespace, channel, { heartbeat: { timeout: 500 }})
 
-        const results: string[] = []
+        const results: JSONValue[] = []
         for await (const message of iter) {
           results.push(message)
           if (results.length === 2) break
