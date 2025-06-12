@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [8.1.0](https://github.com/BlackGlory/pubsub-js/compare/v8.0.0...v8.1.0) (2025-06-12)
+
+
+### Features
+
+* improve `IPubSubClientSubscribeOptions` ([02ec8a0](https://github.com/BlackGlory/pubsub-js/commit/02ec8a097aec53e02447d4adac0d7bec18859436))
+
+
+### Bug Fixes
+
+* the signature of `PubSubClient.subscribe` ([aa2f7f9](https://github.com/BlackGlory/pubsub-js/commit/aa2f7f9ba990e7d1574ca6dc67016b32586200f4))
+
 ## [8.0.0](https://github.com/BlackGlory/pubsub-js/compare/v7.0.1...v8.0.0) (2023-08-02)
 
 
