@@ -37,9 +37,6 @@ export interface IHeartbeatOptions {
 export class PubSubClient {
   constructor(private options: IPubSubClientOptions) {}
 
-  /**
-   * @throws {AbortError}
-   */
   async publish(
     namespace: string
   , channel: string
