@@ -11,10 +11,10 @@ export function buildServer() {
       channel: string
     }
     Body: string
-  }>('/namespaces/:namespace/channels/:channel', async request => {
-    expect(request.params.namespace).toBe('namespace')
-    expect(request.params.channel).toBe('channel')
-    expect(request.body).toStrictEqual('content')
+  }>('/namespaces/:namespace/channels/:channel', async req => {
+    expect(req.params.namespace).toBe('namespace')
+    expect(req.params.channel).toBe('channel')
+    expect(req.body).toStrictEqual('content')
 
     return new Response(null, { status: 204 })
   })
@@ -24,9 +24,9 @@ export function buildServer() {
       namespace: string
       channel: string
     }
-  }>('/namespaces/:namespace/channels/:channel', ({ params }) => {
-    expect(params.namespace).toBe('namespace')
-    expect(params.channel).toBe('channel')
+  }>('/namespaces/:namespace/channels/:channel', req => {
+    expect(req.params.namespace).toBe('namespace')
+    expect(req.params.channel).toBe('channel')
 
     return new Response(
       toArray(concat(
