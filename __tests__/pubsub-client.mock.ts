@@ -11,7 +11,7 @@ export function buildServer() {
       channel: string
     }
     Body: string
-  }>('/namespaces/:namespace/channels/:channel', async req => {
+  }>('/namespaces/:namespace/channels/:channel', req => {
     expect(req.params.namespace).toBe('namespace')
     expect(req.params.channel).toBe('channel')
     expect(req.body).toStrictEqual('content')
