@@ -1,35 +1,47 @@
-import { setupServer } from 'msw/node'
-import { rest } from 'msw'
+import { fastify } from 'fastify'
 import { stringifyEvent } from 'extra-sse'
 import { toArray, concat } from 'iterable-operator'
 
-export const server = setupServer(
-  rest.post(
-    'http://localhost/namespaces/:namespace/channels/:channel'
-  , async (req, res, ctx) => {
-      expect(req.params.namespace).toBe('namespace')
-      expect(req.params.channel).toBe('channel')
-      expect(await req.json()).toStrictEqual('content')
+export function buildServer() {
+  const server = fastify()
 
-      return res(ctx.status(204))
+  server.post<{
+    Params: {
+      namespace: string
+      channel: string
     }
-  )
+    Body: string
+  }>('/namespaces/:namespace/channels/:channel', async request => {
+    expect(request.params.namespace).toBe('namespace')
+    expect(request.params.channel).toBe('channel')
+    expect(request.body).toStrictEqual('content')
 
-, rest.get(
-    'http://localhost/namespaces/:namespace/channels/:channel'
-  , (req, res, ctx) => {
-      expect(req.params.namespace).toBe('namespace')
-      expect(req.params.channel).toBe('channel')
+    return new Response(null, { status: 204 })
+  })
 
-      return res(
-        ctx.status(200)
-      , ctx.set('Connection', 'keep-alive')
-      , ctx.set('Content-Type', 'text/event-stream')
-      , ctx.body(toArray(concat(
-          stringifyEvent({ data: JSON.stringify('content') })
-        , stringifyEvent({ event: 'heartbeat' })
-        )).join(''))
-      )
+  server.get<{
+    Params: {
+      namespace: string
+      channel: string
     }
-  )
-)
+  }>('/namespaces/:namespace/channels/:channel', ({ params }) => {
+    expect(params.namespace).toBe('namespace')
+    expect(params.channel).toBe('channel')
+
+    return new Response(
+      toArray(concat(
+        stringifyEvent({ data: JSON.stringify('content') })
+      , stringifyEvent({ event: 'heartbeat' })
+      )).join('')
+    , {
+        status: 200
+      , headers: {
+          'Connection': 'keep-alive'
+        , 'Content-Type': 'text/event-stream'
+        }
+      }
+    )
+  })
+
+  return server
+}

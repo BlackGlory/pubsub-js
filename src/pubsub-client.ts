@@ -3,10 +3,11 @@ import { post, IRequestOptionsTransformer, get } from 'extra-request'
 import { url, appendPathname, json, keepalive, signal, basicAuth, header } from 'extra-request/transformers'
 import { ok } from 'extra-response'
 import { setTimeout } from 'extra-timers'
-import { AbortError, raceAbortSignals, timeoutSignal } from 'extra-abort'
+import { raceAbortSignals, timeoutSignal } from 'extra-abort'
 import { assert, Falsy, JSONValue, go, isntUndefined, pass } from '@blackglory/prelude'
 import { expectedVersion } from './contract.js'
 import { fetchEvents } from 'extra-sse'
+import { CustomError } from '@blackglory/errors'
 
 export interface IPubSubClientOptions {
   server: string
@@ -72,7 +73,8 @@ export class PubSubClient {
 
     while (true) {
       try {
-        const controller = new AbortController()
+        const heartbeatTimeoutController = new AbortController()
+
         for await (
           const { event = 'message', data } of fetchEvents(
             () => get(
@@ -80,7 +82,7 @@ export class PubSubClient {
                 ...options
               , signal: raceAbortSignals([
                   options.signal
-                , controller.signal
+                , heartbeatTimeoutController.signal
                 ])
               })
             , appendPathname(`/namespaces/${namespace}/channels/${channel}`)
@@ -88,7 +90,7 @@ export class PubSubClient {
           , {
               onOpen: () => {
                 if (isntUndefined(heartbeatTimeout)) {
-                  resetHeartbeatTimeout(controller, heartbeatTimeout)
+                  resetHeartbeatTimeout(heartbeatTimeoutController, heartbeatTimeout)
                 }
               }
             }
@@ -103,14 +105,14 @@ export class PubSubClient {
             }
             case 'heartbeat': {
               if (isntUndefined(heartbeatTimeout)) {
-                resetHeartbeatTimeout(controller, heartbeatTimeout)
+                resetHeartbeatTimeout(heartbeatTimeoutController, heartbeatTimeout)
               }
               break
             }
           }
         }
       } catch (e) {
-        if (e instanceof AbortError) {
+        if (e instanceof HeartbeatTimeoutError) {
           pass()
         } else {
           throw e
@@ -122,7 +124,10 @@ export class PubSubClient {
 
     function resetHeartbeatTimeout(controller: AbortController, timeout: number): void {
       cancelHeartbeatTimeout?.()
-      cancelHeartbeatTimeout = setTimeout(timeout, () => controller.abort())
+
+      cancelHeartbeatTimeout = setTimeout(timeout, () => {
+        controller.abort(new HeartbeatTimeoutError())
+      })
     }
   }
 
@@ -146,3 +151,5 @@ export class PubSubClient {
     ]
   }
 }
+
+class HeartbeatTimeoutError extends CustomError {}

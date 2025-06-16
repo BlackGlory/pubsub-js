@@ -1,12 +1,12 @@
 import { JSONValue } from '@blackglory/prelude'
-import { server } from './pubsub-client.mock.js'
+import { buildServer } from './pubsub-client.mock.js'
 import { PubSubClient } from '@src/pubsub-client.js'
 import { delay } from 'extra-promise'
 import { firstAsync } from 'iterable-operator'
+import { getAddress, startService, stopService } from './utils.js'
 
-beforeAll(() => server.listen({ onUnhandledRequest: 'error' }))
-beforeEach(() => server.resetHandlers())
-afterAll(() => server.close())
+beforeAll(() => startService(buildServer))
+afterAll(stopService)
 
 describe('PubSubClient', () => {
   test('publish', async () => {
@@ -19,7 +19,7 @@ describe('PubSubClient', () => {
   })
 
   describe('subscribe', () => {
-    test('generic', async () => {
+    test('general', async () => {
       const namespace = 'namespace'
       const channel = 'channel'
       const client = createClient()
@@ -35,7 +35,9 @@ describe('PubSubClient', () => {
         const namespace = 'namespace'
         const channel = 'channel'
         const client = createClient()
-        const iter = client.subscribe(namespace, channel, { heartbeat: { timeout: 500 }})
+        const iter = client.subscribe(namespace, channel, {
+          heartbeat: { timeout: 500 }
+        })
 
         const results: JSONValue[] = []
         for await (const message of iter) {
@@ -54,7 +56,9 @@ describe('PubSubClient', () => {
         const namespace = 'namespace'
         const channel = 'channel'
         const client = createClient()
-        const iter = client.subscribe(namespace, channel, { heartbeat: { timeout: 500 }})
+        const iter = client.subscribe(namespace, channel, {
+          heartbeat: { timeout: 500 }
+        })
 
         const results: JSONValue[] = []
         for await (const message of iter) {
@@ -73,5 +77,5 @@ describe('PubSubClient', () => {
 })
 
 function createClient() {
-  return new PubSubClient({ server: 'http://localhost' })
+  return new PubSubClient({ server: getAddress() })
 }
