@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [9.0.0](https://github.com/BlackGlory/pubsub-js/compare/v8.1.0...v9.0.0) (2025-06-16)
+
+
+### ⚠ BREAKING CHANGES
+
+* **subscribe:** Node.js v16 => Node.js v22
+
+### Bug Fixes
+
+* **subscribe:** `options.signal` support ([efad14c](https://github.com/BlackGlory/pubsub-js/commit/efad14c07c6172becc46995da7ea6b7d20942429))
+
 ## [8.1.0](https://github.com/BlackGlory/pubsub-js/compare/v8.0.0...v8.1.0) (2025-06-12)
 
 
