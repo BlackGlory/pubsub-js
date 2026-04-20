@@ -45,7 +45,7 @@ export class PubSubClient {
   ): Promise<void> {
     const req = post(
       ...this.getCommonTransformers(options)
-    , appendPathname(`/namespaces/${namespace}/channels/${channel}`)
+    , appendPathname(`/namespaces/${encodeURIComponent(namespace)}/channels/${encodeURIComponent(channel)}`)
     , json(content)
     )
 
@@ -82,7 +82,7 @@ export class PubSubClient {
                 , heartbeatTimeoutController.signal
                 ])
               })
-            , appendPathname(`/namespaces/${namespace}/channels/${channel}`)
+            , appendPathname(`/namespaces/${encodeURIComponent(namespace)}/channels/${encodeURIComponent(channel)}`)
             )
           , {
               onOpen: () => {
