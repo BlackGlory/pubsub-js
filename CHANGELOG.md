@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [9.1.1](https://github.com/BlackGlory/pubsub-js/compare/v9.1.0...v9.1.1) (2026-04-20)
+
+
+### Bug Fixes
+
+* encode namespaces and channels ([c12e6b5](https://github.com/BlackGlory/pubsub-js/commit/c12e6b50246a8fed2da02afb9f6e4688c6372bef))
+
 ## [9.1.0](https://github.com/BlackGlory/pubsub-js/compare/v9.0.0...v9.1.0) (2026-02-16)
 
 
